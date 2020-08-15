@@ -1,0 +1,127 @@
+.container {
+  min-height: 100vh;
+  width: 360px;
+  background-color: #edf2f7;
+}
+
+.profileContainer {
+  width: 90%;
+  margin: auto;
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 25px;
+  grid-template-rows: 2.8fr 1fr auto;
+}
+
+.logoContainer {
+  width: 100px;
+  margin: auto;
+}
+.datosContainer {
+  position: relative;
+  top: -50px;
+}
+.informationContainer {
+  width: 100%;
+  height: 170px;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 90px;
+}
+.name {
+  color: #000000;
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  margin: 10px 0 15px 0px;
+}
+
+.editButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+.editButton {
+  border-radius: 5px;
+  background-color: #4bc0d0;
+  color: white;
+  padding: 5px 10px;
+}
+.editButton:focus {
+  outline: none;
+}
+
+.certificateButtonsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.currentCertificateButton {
+  color: white;
+  background-color: #6b7280;
+}
+.noCurrentCertificateButton {
+  color: #6b7280;
+}
+.quantityCertificates {
+  font-size: 20px;
+  font-weight: 500;
+  display: block;
+  margin: 0 auto;
+}
+.certificateButton {
+  padding: 8px 10px;
+  width: 100px;
+  font-size: 15px;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+/* .certificateButton:focus {
+  outline: none;
+} */
+
+.certificateContainer {
+  background-color: white;
+  border-radius: 5px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 10px;
+}
+.addCertificateButton {
+  background-color: transparent;
+  border: 1px solid #cbd5e0;
+  color: #d2d6dc;
+  padding: 10px;
+}
+/* .addCertificateButton:focus {
+  outline: none;
+} */
+.itemsContainer {
+  width: 100%;
+  height: 160px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.certificateTitle {
+  font-weight: bold;
+  margin: 5px 0;
+}
+.itemDescription {
+  font-size: 8px;
+  padding: 8px 5px;
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  border-radius: 5px;
+  border: 0.5px solid #e2e8f0;
+  border-top: none;
+}
+.certificateStatus {
+  color: #c4c4c4;
+}
