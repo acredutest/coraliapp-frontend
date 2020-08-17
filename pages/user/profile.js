@@ -64,11 +64,11 @@ export default function Profile() {
           {currentPage === "certificate" ? (
             <>
               <Certificate />
-              <button
+              <Link href="/certificates"
                 className={`${styles.addCertificateButton} ${styles.itemsContainer}`}
               >
                 Añadir certificado
-              </button>
+              </Link>
             </>
           ) : null}
           {currentPage === "constancia" ? <h1>Constancia</h1> : null}
