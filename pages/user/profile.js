@@ -11,7 +11,7 @@ export default function Profile() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Profile</title>
+        <title>Coraliapp | Profile</title>
       </Head>
       <div className={styles.profileContainer}>
         <div className={styles.informationContainer}>
@@ -64,10 +64,12 @@ export default function Profile() {
           {currentPage === "certificate" ? (
             <>
               <Certificate />
-              <Link href="/certificates"
-                className={`${styles.addCertificateButton} ${styles.itemsContainer}`}
-              >
-                Añadir certificado
+              <Link href="/certificates">
+                <button
+                  className={`${styles.addCertificateButton} ${styles.itemsContainer}`}
+                >
+                  Añadir certificado
+                </button>
               </Link>
             </>
           ) : null}
