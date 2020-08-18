@@ -2,26 +2,37 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
-import ProfileLogo from "./profileLogo";
 import Certificate from "./certificate";
 
 export default function Profile() {
   const [currentPage, setCurrentPage] = useState("certificate");
 
+  const path = {
+    profileImg: "/images/profile.svg",
+    certificate: "/images/certificado.jpg",
+    addImg: "/images/plus.svg",
+    verificateImg: "/images/verificate.svg",
+  };
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Profile</title>
+        <title>Coraliapp | Profile</title>
       </Head>
       <div className={styles.profileContainer}>
         <div className={styles.informationContainer}>
           <div className={styles.datosContainer}>
             <div className={styles.logoContainer}>
-              <ProfileLogo />
+              <img src={path.profileImg} alt="profile" />
             </div>
             <h1 className={styles.name}>Pedro Valdivia</h1>
             <div className={styles.editButtonContainer}>
               <button className={styles.editButton}>Editar Perfil</button>
+            </div>
+            <div className={styles.logoutButtonContainer}>
+              <Link href="/">
+                <button className={styles.logout}>Cerrar sesión</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -57,19 +68,24 @@ export default function Profile() {
             onClick={() => setCurrentPage("reverificar")}
           >
             <span className={styles.quantityCertificates}>0</span>
-            Para reverificar
+            Para revalidar
           </button>
         </div>
         <div className={styles.certificateContainer}>
           {currentPage === "certificate" ? (
-            <>
-              <Certificate />
-              <Link href="/certificates"
-                className={`${styles.addCertificateButton} ${styles.itemsContainer}`}
-              >
-                Añadir certificado
+            <div className={styles.itemsContainer}>
+              <Certificate
+                certificate={path.certificate}
+                verificateIcon={path.verificateImg}
+              />
+              <Link href="/certificates">
+                <button
+                  className={`${styles.addCertificateButton} ${styles.itemContainer}`}
+                >
+                  <img src={path.addImg} className={styles.addIcon} />
+                </button>
               </Link>
-            </>
+            </div>
           ) : null}
           {currentPage === "constancia" ? <h1>Constancia</h1> : null}
           {currentPage === "reverificar" ? <h1>reverificar</h1> : null}
