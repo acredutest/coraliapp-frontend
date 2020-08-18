@@ -29,6 +29,11 @@ export default function Profile() {
             <div className={styles.editButtonContainer}>
               <button className={styles.editButton}>Editar Perfil</button>
             </div>
+            <div className={styles.logoutButtonContainer}>
+              <Link href="/">
+                <button className={styles.logout}>Cerrar sesión</button>
+              </Link>
+            </div>
           </div>
         </div>
         <div className={styles.certificateButtonsContainer}>
