@@ -11,6 +11,7 @@ export default function Profile() {
     profileImg: "/images/profile.svg",
     certificate: "/images/certificado.jpg",
     addImg: "/images/plus.svg",
+    verificateImg: "/images/verificate.svg",
   };
 
   return (
@@ -67,16 +68,19 @@ export default function Profile() {
         </div>
         <div className={styles.certificateContainer}>
           {currentPage === "certificate" ? (
-            <>
-              <Certificate certificate={path.certificate} />
+            <div className={styles.itemsContainer}>
+              <Certificate
+                certificate={path.certificate}
+                verificateIcon={path.verificateImg}
+              />
               <Link href="/certificates">
                 <button
-                  className={`${styles.addCertificateButton} ${styles.itemsContainer}`}
+                  className={`${styles.addCertificateButton} ${styles.itemContainer}`}
                 >
-                  <img src={path.addImg} />
+                  <img src={path.addImg} className={styles.addIcon} />
                 </button>
               </Link>
-            </>
+            </div>
           ) : null}
           {currentPage === "constancia" ? <h1>Constancia</h1> : null}
           {currentPage === "reverificar" ? <h1>reverificar</h1> : null}
