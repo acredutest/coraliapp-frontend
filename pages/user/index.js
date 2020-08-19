@@ -4,10 +4,13 @@ import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
 import Certificate from "./certificate";
 
-import ProtectedRoute from './../../hocs/ProtectedRoute';
+import ProtectedRoute from "./../../hocs/ProtectedRoute";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
+
+  const user = useSelector((state) => state.auth.user);
 
   const path = {
     profileImg: "/images/profile.svg",
@@ -27,7 +30,9 @@ const Profile = () => {
             <div className={styles.logoContainer}>
               <img src={path.profileImg} alt="profile" />
             </div>
-            <h1 className={styles.name}>Pedro Valdivia</h1>
+            <h1 className={styles.name}>
+              {user.name} {user.last_name}
+            </h1>
             <div className={styles.editButtonContainer}>
               <button className={styles.editButton}>Editar Perfil</button>
             </div>
@@ -95,11 +100,7 @@ const Profile = () => {
       </div>
     </div>
   );
-}
-import React from 'react';
-
-import ProtectedRoute from './../../hocs/ProtectedRoute';
-
+};
 // const User = () => {
 //   return (
 //     <>User</>
