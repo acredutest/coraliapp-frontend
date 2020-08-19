@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start"
   },
@@ -16,7 +16,14 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "sass": "^1.26.10",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "@reduxjs/toolkit": "^1.4.0",
+    "formik": "^2.1.5",
+    "js-cookie": "^2.2.1",
+    "react-loading-skeleton": "^2.1.1",
+    "react-redux": "^7.2.1",
+    "swr": "^0.3.0",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.3.0",

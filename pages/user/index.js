@@ -4,7 +4,9 @@ import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
 import Certificate from "./certificate";
 
-export default function Profile() {
+import ProtectedRoute from './../../hocs/ProtectedRoute';
+
+const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
 
   const path = {
@@ -94,3 +96,14 @@ export default function Profile() {
     </div>
   );
 }
+import React from 'react';
+
+import ProtectedRoute from './../../hocs/ProtectedRoute';
+
+// const User = () => {
+//   return (
+//     <>User</>
+//   )
+// }
+
+export default ProtectedRoute(Profile);
