@@ -1,24 +1,24 @@
-import { useContext, useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Spinner } from '@chakra-ui/core';
-import styles from './../../../styles/Certificates.module.scss';
+import { useContext, useState, useEffect } from "react";
+import Link from "next/link";
+import { Spinner } from "@chakra-ui/core";
+import styles from "./../../../styles/Certificates.module.scss";
 
 const buttonMessages = {
   onSearch: {
-    message: 'Buscar Certificados',
-    color: '#9166EB',
+    message: "Buscar Certificados",
+    color: "#9166EB",
   },
   save: {
-    message: 'Guardar',
-    color: '#7498FF',
+    message: "Guardar",
+    color: "#7498FF",
   },
   edit: {
-    message: 'Editar',
-    color: '#69707F',
+    message: "Editar",
+    color: "#69707F",
   },
 };
 
-export const DNIForm = ({ state = null, setState }) => {
+export default function DNIForm({ state = null, setState }) {
   const [isLoading, setIsLoading] = useState(false);
   const [fieldDNI, setFieldDNI] = useState(null);
   const [DNI, setDNI] = useState(null);
@@ -28,13 +28,13 @@ export const DNIForm = ({ state = null, setState }) => {
   const handleSubmit = (event) => {
     const DNIValue = event.target.DNI.value.toString();
     event.preventDefault();
-    if (!DNIValue.match(/^(\d{8})$/)) return alert('Should have 8 digits');
+    if (!DNIValue.match(/^(\d{8})$/)) return alert("Should have 8 digits");
     setDNI(DNIValue);
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       setEdit(true);
-      setState('success');
+      setState("success");
     }, 1000);
   };
 
@@ -43,8 +43,8 @@ export const DNIForm = ({ state = null, setState }) => {
     setEdit(false);
   };
   useEffect(() => {
-    if (state !== 'onSearch') {
-      !DNI ? setCurrentState('save') : setCurrentState('edit');
+    if (state !== "onSearch") {
+      !DNI ? setCurrentState("save") : setCurrentState("edit");
     } else {
       setCurrentState(state);
     }
@@ -63,9 +63,9 @@ export const DNIForm = ({ state = null, setState }) => {
             onChange={(e) => {
               setDNI(e.target.value);
             }}
-            disabled={edit && 'true'}
+            disabled={edit && "true"}
           />
-          {state === 'onSearch' && (
+          {state === "onSearch" && (
             <button
               type="submit"
               style={{ background: buttonMessages[state].color }}
@@ -73,7 +73,7 @@ export const DNIForm = ({ state = null, setState }) => {
               {buttonMessages[state].message}
             </button>
           )}
-          {state !== 'onSearch' && !edit && (
+          {state !== "onSearch" && !edit && (
             <button
               type="submit"
               style={{ background: buttonMessages.save.color }}
@@ -81,7 +81,7 @@ export const DNIForm = ({ state = null, setState }) => {
               {buttonMessages.save.message}
             </button>
           )}
-          {state !== 'onSearch' && edit && (
+          {state !== "onSearch" && edit && (
             <button
               onClick={(event) => openEdit(event)}
               style={{ background: buttonMessages.edit.color }}
@@ -104,4 +104,4 @@ export const DNIForm = ({ state = null, setState }) => {
       )}
     </>
   );
-};
+}

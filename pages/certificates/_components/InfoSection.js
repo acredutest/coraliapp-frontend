@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import styles from './../../../styles/Certificates.module.scss';
+import Link from "next/link";
+import styles from "./../../../styles/Certificates.module.scss";
 
-export const InfoSection = ({ setCurrentState }) => {
+export default function InfoSection({ setCurrentState }) {
   return (
     <div className={styles.infoSection}>
       <p className={styles.infoSectionParagraph}>
@@ -15,10 +15,10 @@ export const InfoSection = ({ setCurrentState }) => {
 
       <span
         className={styles.goSearchButton}
-        onClick={() => setCurrentState('onSearch')}
+        onClick={() => setCurrentState("onSearch")}
       >
         Buscar Certificados
       </span>
     </div>
   );
-};
+}
