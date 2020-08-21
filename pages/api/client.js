@@ -1,29 +1,33 @@
-import { API_URL } from './../../constants';
-import { getCookieTokenObject } from '../../helpers/cookies.helpers';
+import { API_URL } from "./../../constants";
+import { getCookieTokenObject } from "../../helpers/cookies.helpers";
 
 const identityCookies = getCookieTokenObject();
 const identity = identityCookies ? JSON.parse(identityCookies) : null;
-const headers = identity ?
-  {
-    'content-type': 'application/json',
-    'access-token': identity['access-token'],
-    'client': identity.client,
-    'uid': identity.uid
-  } :
-  {
-    'content-type': 'application/json',
-  };
+const headers = identity
+  ? {
+      "content-type": "application/json",
+      "access-token": identity["access-token"],
+      client: identity.client,
+      uid: identity.uid,
+    }
+  : {
+      "content-type": "application/json",
+    };
 
 const getFetch = async (endpoint) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
-      method: 'GET',
+      method: "GET",
       headers: headers,
     });
     const json = await response.json();
 
     if (response.ok) {
-      return { data: json.data };
+      if (json.data) {
+        return { data: json.data };
+      } else {
+        return { data: json };
+      }
     } else {
       return Promise.reject(json.errors.pop());
     }
@@ -52,7 +56,6 @@ const postFetch = async (endpoint, body) => {
   }
 };
 
-
 const postFetchWithHeaders = async (endpoint, body) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
@@ -66,10 +69,10 @@ const postFetchWithHeaders = async (endpoint, body) => {
       return {
         data: json.data,
         headers: {
-          "access-token": response.headers.get('access-token'),
-          "client": response.headers.get('client'),
-          "uid": response.headers.get('uid'),
-        }
+          "access-token": response.headers.get("access-token"),
+          client: response.headers.get("client"),
+          uid: response.headers.get("uid"),
+        },
       };
     }
     return Promise.reject(json.errors.pop());
@@ -82,7 +85,7 @@ const postFetchWithHeaders = async (endpoint, body) => {
 const patchFetch = async (endpoint, token, body) => {
   let headers = {
     "content-type": "application/json",
-    "Authorization": `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
 
   try {
@@ -101,4 +104,5 @@ const patchFetch = async (endpoint, token, body) => {
     return Promise.reject({ message: "Network error" });
   }
 };
+
 export { getFetch, postFetch, postFetchWithHeaders, patchFetch };

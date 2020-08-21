@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import styles from './../../../styles/Certificates.module.scss';
+import Link from "next/link";
+import styles from "./../../../styles/Certificates.module.scss";
 
 export const InfoSection = ({ setCurrentState }) => {
   return (
@@ -9,13 +9,13 @@ export const InfoSection = ({ setCurrentState }) => {
         certificado para ti en el sistema.
       </p>
 
-      <Link href="/user/profile">
+      <Link href="/user">
         <button className={styles.goProfileButton}>Ir a mi perfil</button>
       </Link>
 
       <span
         className={styles.goSearchButton}
-        onClick={() => setCurrentState('onSearch')}
+        onClick={() => setCurrentState("onSearch")}
       >
         Buscar Certificados
       </span>

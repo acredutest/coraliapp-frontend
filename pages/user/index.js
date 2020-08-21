@@ -7,10 +7,15 @@ import Certificate from "./certificate";
 import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";
 
+import { useDispatch } from "react-redux";
+import { logout } from "./../../slices/authSlice";
+
 const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
 
   const user = useSelector((state) => state.auth.user);
+  const credentials = useSelector((state) => state.credentials.credentials);
+  const dispatch = useDispatch();
 
   const path = {
     profileImg: "/images/profile.svg",
@@ -37,9 +42,12 @@ const Profile = () => {
               <button className={styles.editButton}>Editar Perfil</button>
             </div>
             <div className={styles.logoutButtonContainer}>
-              <Link href="/">
-                <button className={styles.logout}>Cerrar sesión</button>
-              </Link>
+              <button
+                className={styles.logout}
+                onClick={() => dispatch(logout())}
+              >
+                Cerrar sesión
+              </button>
             </div>
           </div>
         </div>
@@ -52,7 +60,11 @@ const Profile = () => {
             } ${styles.certificateButton}`}
             onClick={() => setCurrentPage("certificate")}
           >
-            <span className={styles.quantityCertificates}>0</span>
+            <span className={styles.quantityCertificates}>
+              {credentials != null && credentials.length > 0
+                ? credentials.length
+                : 0}
+            </span>
             Certificados Vigentes
           </button>
           <button
@@ -81,11 +93,19 @@ const Profile = () => {
         <div className={styles.certificateContainer}>
           {currentPage === "certificate" ? (
             <div className={styles.itemsContainer}>
-              <Certificate
-                certificate={path.certificate}
-                verificateIcon={path.verificateImg}
-              />
-              <Link href="/certificates">
+              {credentials != null && credentials.length > 0 && (
+                <>
+                  {credentials.map((credential) => (
+                    <Certificate
+                      certificate={path.certificate}
+                      verificateIcon={path.verificateImg}
+                      credentialInformation={credential}
+                    />
+                  ))}
+                </>
+              )}
+
+              <Link href="/certificates/search">
                 <button
                   className={`${styles.addCertificateButton} ${styles.itemContainer}`}
                 >
@@ -101,10 +121,5 @@ const Profile = () => {
     </div>
   );
 };
-// const User = () => {
-//   return (
-//     <>User</>
-//   )
-// }
 
 export default ProtectedRoute(Profile);

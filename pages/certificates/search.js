@@ -1,21 +1,28 @@
-import React, { useState, useContext } from 'react';
-import Head from 'next/head';
-import styles from './../../styles/Certificates.module.scss';
-import { FrameCertificate } from './_components/FrameCertificate';
-import { DNIForm } from './_components/DNIForm';
-import { InfoSection } from './_components/InfoSection';
+import React, { useState, useContext } from "react";
+import Head from "next/head";
+import styles from "./../../styles/Certificates.module.scss";
+import { FrameCertificate } from "./_components/FrameCertificate";
+import { DNIForm } from "./_components/DNIForm";
+import { InfoSection } from "./_components/InfoSection";
+
+import { useSelector, useDispatch } from "react-redux";
 
 const messages = {
   onSearch: `Descubre que certificados tienes disponibles para ti en el sistema,
     ingresa el número de tu documento de identidad para buscar.`,
   notFound: `En este momento no tienes certificados tuyos disponibles en el sistema.`,
-  success: 'Hemos encontrado unos certificados a tu nombre  🎉',
+  success: "Hemos encontrado unos certificados a tu nombre  🎉",
 };
 
 const Certificates = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(messages.initial);
-  const [currentState, setCurrentState] = useState('notFound');
+  const [currentState, setCurrentState] = useState("onSearch");
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const credentials = useSelector((state) => state.credentials.credentials);
+
   return (
     <>
       <Head>
@@ -25,7 +32,7 @@ const Certificates = () => {
       <main className={styles.container}>
         <section
           className={styles.section}
-          style={{ borderBottom: '1px solid #C4C4C4', paddingBottom: '10px' }}
+          style={{ borderBottom: "1px solid #C4C4C4", paddingBottom: "10px" }}
         >
           <FrameCertificate
             state={currentState}
@@ -37,8 +44,10 @@ const Certificates = () => {
           setState={setCurrentState}
           message={message}
           setMessage={setMessage}
+          dispatch={dispatch}
+          dni={user.dni}
         />
-        {currentState !== 'onSearch' && (
+        {currentState !== "onSearch" && (
           <InfoSection setCurrentState={setCurrentState} />
         )}
       </main>

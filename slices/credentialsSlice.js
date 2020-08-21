@@ -1,14 +1,26 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getFetch } from "../pages/api/client";
 
-const initialState = [1, 2, 3];
+export const getCredentials = createAsyncThunk(
+  "credentials/get_credentials",
+  async () => {
+    const response = await getFetch(`/credentials`);
+    return response;
+  }
+);
 
-const credentialsSlice = createSlice({
-  name: 'credentials',
-  initialState: initialState,
+export const credentialsSlice = createSlice({
+  name: "credentials",
+  initialState: { credentials: null , error: null },
   reducers: {},
-
+  extraReducers: {
+    [getCredentials.fulfilled]: (state, action) => {
+      state.credentials = action.payload.data;
+    },
+    [getCredentials.rejected]: (state, action) => {
+      state.error = action.error.message;
+    },
+  },
 });
-
-// export const {} = credentialsSlice.actions;
 
 export default credentialsSlice.reducer;
