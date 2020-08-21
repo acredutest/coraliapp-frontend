@@ -9,7 +9,7 @@ export default function InfoSection({ setCurrentState }) {
         certificado para ti en el sistema.
       </p>
 
-      <Link href="/user/profile">
+      <Link href="/user">
         <button className={styles.goProfileButton}>Ir a mi perfil</button>
       </Link>
 

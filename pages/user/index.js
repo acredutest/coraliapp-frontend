@@ -4,8 +4,18 @@ import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
 import Certificate from "./certificate";
 
-export default function Profile() {
+import ProtectedRoute from "./../../hocs/ProtectedRoute";
+import { useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
+import { logout } from "./../../slices/authSlice";
+
+const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
+
+  const user = useSelector((state) => state.auth.user);
+  const credentials = useSelector((state) => state.credentials.credentials);
+  const dispatch = useDispatch();
 
   const path = {
     profileImg: "/images/profile.svg",
@@ -25,14 +35,19 @@ export default function Profile() {
             <div className={styles.logoContainer}>
               <img src={path.profileImg} alt="profile" />
             </div>
-            <h1 className={styles.name}>Pedro Valdivia</h1>
+            <h1 className={styles.name}>
+              {user.name} {user.last_name}
+            </h1>
             <div className={styles.editButtonContainer}>
               <button className={styles.editButton}>Editar Perfil</button>
             </div>
             <div className={styles.logoutButtonContainer}>
-              <Link href="/">
-                <button className={styles.logout}>Cerrar sesión</button>
-              </Link>
+              <button
+                className={styles.logout}
+                onClick={() => dispatch(logout())}
+              >
+                Cerrar sesión
+              </button>
             </div>
           </div>
         </div>
@@ -45,7 +60,11 @@ export default function Profile() {
             } ${styles.certificateButton}`}
             onClick={() => setCurrentPage("certificate")}
           >
-            <span className={styles.quantityCertificates}>0</span>
+            <span className={styles.quantityCertificates}>
+              {credentials != null && credentials.length > 0
+                ? credentials.length
+                : 0}
+            </span>
             Certificados Vigentes
           </button>
           <button
@@ -74,11 +93,19 @@ export default function Profile() {
         <div className={styles.certificateContainer}>
           {currentPage === "certificate" ? (
             <div className={styles.itemsContainer}>
-              <Certificate
-                certificate={path.certificate}
-                verificateIcon={path.verificateImg}
-              />
-              <Link href="/certificates">
+              {credentials != null && credentials.length > 0 && (
+                <>
+                  {credentials.map((credential) => (
+                    <Certificate
+                      certificate={path.certificate}
+                      verificateIcon={path.verificateImg}
+                      credentialInformation={credential}
+                    />
+                  ))}
+                </>
+              )}
+
+              <Link href="/certificates/search">
                 <button
                   className={`${styles.addCertificateButton} ${styles.itemContainer}`}
                 >
@@ -93,4 +120,6 @@ export default function Profile() {
       </div>
     </div>
   );
-}
+};
+
+export default ProtectedRoute(Profile);

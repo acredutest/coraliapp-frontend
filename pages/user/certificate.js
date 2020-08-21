@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "../../styles/Profile.module.css";
-// import certificado from "./images/certificado.jpg";
 
-export default function Certificate({ certificate, verificateIcon }) {
+export default function Certificate({
+  certificate,
+  verificateIcon,
+  credentialInformation,
+}) {
   return (
     <div className={styles.itemContainer}>
       <img src={certificate} alt="certificado" />
@@ -18,10 +21,7 @@ export default function Certificate({ certificate, verificateIcon }) {
         <h1 className={styles.certificateTitle}>
           Certificado FullStack by Codeable
         </h1>
-        <p className={styles.darkgray}>
-          Bootcamp de formacion FullStack por seis meses, HTML, css ,
-          javascript, reactjs, ruby on rails
-        </p>
+        <p className={styles.darkgray}>{credentialInformation.body}</p>
         <div className={styles.shareContainer}>
           <img src="/images/linkedin.svg" className={styles.shareIcon} />
           <div className={styles.shareInfo}>

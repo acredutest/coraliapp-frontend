@@ -3,6 +3,10 @@ import Link from "next/link";
 import { Spinner } from "@chakra-ui/core";
 import styles from "./../../../styles/Certificates.module.scss";
 
+import { getCredentials } from "./../../../slices/credentialsSlice";
+import Certificates from "../search";
+import { useRouter } from "next/router";
+
 const buttonMessages = {
   onSearch: {
     message: "Buscar Certificados",
@@ -18,12 +22,14 @@ const buttonMessages = {
   },
 };
 
-export default function DNIForm({ state = null, setState }) {
+export default function DNIForm({ state = null, setState, dispatch, dni }) {
   const [isLoading, setIsLoading] = useState(false);
   const [fieldDNI, setFieldDNI] = useState(null);
   const [DNI, setDNI] = useState(null);
   const [edit, setEdit] = useState(!!DNI);
   const [currentState, setCurrentState] = useState(null);
+
+  const router = useRouter();
 
   const handleSubmit = (event) => {
     const DNIValue = event.target.DNI.value.toString();
@@ -31,8 +37,18 @@ export default function DNIForm({ state = null, setState }) {
     if (!DNIValue.match(/^(\d{8})$/)) return alert("Should have 8 digits");
     setDNI(DNIValue);
     setIsLoading(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsLoading(false);
+      if (dni !== DNIValue) {
+        setState("notFound");
+      } else {
+        const { error, payload } = await dispatch(getCredentials());
+        if (!payload.data.errors) {
+          router.push("/user");
+        } else {
+          setState("notFound");
+        }
+      }
       setEdit(true);
       setState("success");
     }, 1000);

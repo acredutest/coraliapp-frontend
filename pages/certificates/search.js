@@ -15,7 +15,12 @@ const messages = {
 const Certificates = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(messages.initial);
-  const [currentState, setCurrentState] = useState("notFound");
+  const [currentState, setCurrentState] = useState("onSearch");
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const credentials = useSelector((state) => state.credentials.credentials);
+
   return (
     <>
       <Head>
@@ -37,6 +42,8 @@ const Certificates = () => {
           setState={setCurrentState}
           message={message}
           setMessage={setMessage}
+          dispatch={dispatch}
+          dni={user.dni}
         />
         {currentState !== "onSearch" && (
           <InfoSection setCurrentState={setCurrentState} />
