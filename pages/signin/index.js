@@ -13,8 +13,11 @@ import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
 
 const validations = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
+  email: yup
+    .string()
+    .email("El formato del correo no es el correcto")
+    .required("Información requerida"),
+  password: yup.string().required("Información requerida"),
 });
 
 function SignIn(props) {
@@ -40,7 +43,11 @@ function SignIn(props) {
             dispatch(loadingStarted());
             const { error, payload } = await dispatch(signIn(values));
             if (error) {
-              setErrorMessage(error.message);
+              if (error.message.startsWith("Invalid")) {
+                setErrorMessage("Email o password son incorrectos");
+              } else {
+                setErrorMessage(error.message);
+              }
             } else if (payload.data) {
               router.push(payload.data.role);
             }
