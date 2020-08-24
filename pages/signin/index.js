@@ -9,6 +9,9 @@ import * as yup from "yup";
 import { signIn } from "./../../slices/authSlice";
 import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 
+import styles from "./../../styles/SignIn.module.css";
+import Link from "next/link";
+
 const validations = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required(),
@@ -22,8 +25,10 @@ function SignIn(props) {
   const dispatch = useDispatch();
 
   return (
-    <div>
-      -{user ? user.email : "..."}- -{`${loading}`}-
+    <div className={styles.container}>
+      <h1 className={styles.title}>Ingresar</h1>
+      {/* -{user ? user.email : "..."}- -
+      {`${loading}`}- */}
       <Formik
         initialValues={{
           email: "nicolle@gmail.com",
@@ -47,21 +52,58 @@ function SignIn(props) {
       >
         {({ status }) => (
           <>
-            <p>{errorMessage}</p>
+            <p className={`${styles.errorMessage} ${styles.error}`}>
+              {errorMessage}
+            </p>
             <Form>
-              <label>Email</label>
-              <Field name="email" type="email" />
-              <ErrorMessage name="email">
-                {(msg) => <div>{msg}</div>}
-              </ErrorMessage>
-              <label>Password</label>
-              <Field name="password" type="password" />
-
-              <button type="submit">LOGIN</button>
+              <div className={styles.fullField}>
+                <label className={styles.label}>Email</label>
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="tu@correo.com"
+                  className={styles.field}
+                />
+                <ErrorMessage name="email">
+                  {(msg) => (
+                    <div>
+                      <p className={styles.error}>{msg}</p>
+                    </div>
+                  )}
+                </ErrorMessage>
+              </div>
+              <div className={styles.fullField}>
+                <label className={styles.label}>Contraseña</label>
+                <Field
+                  name="password"
+                  type="password"
+                  placeholder="*********"
+                  className={styles.field}
+                />
+                <ErrorMessage name="password">
+                  {(msg) => (
+                    <div>
+                      <p className={styles.error}>{msg}</p>
+                    </div>
+                  )}
+                </ErrorMessage>
+              </div>
+              <button type="submit" className={styles.loginButton}>
+                Ingresar
+              </button>
+              <button className={styles.forgotPasswordButton}>
+                Olvidé mi contraseña
+              </button>
             </Form>
           </>
         )}
       </Formik>
+      <div className={styles.signUpLink}>
+        <p className={styles.newAccountText}>¿Necesitas una cuenta?</p>
+        <Link href="/signup">
+          <span className={styles.signUp}>Registrate</span>
+        </Link>
+      </div>
     </div>
   );
 }
