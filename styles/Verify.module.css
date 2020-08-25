@@ -1,0 +1,65 @@
+.body {
+  background: #2e384d;
+  font-family: Noto Sans;
+}
+.container {
+  width: 250px;
+  margin: auto;
+  padding: 70px 0;
+}
+
+.logoContainer {
+  width: 80px;
+  margin: auto;
+}
+
+.verifyTitle {
+  color: #e2e8f0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  text-align: center;
+  margin: 15px 0px 50px;
+}
+
+.field {
+  background: #ffffff;
+  border: 1px solid #88898b;
+  box-sizing: border-box;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  padding: 6px 8px;
+  margin-bottom: 16px;
+}
+
+.verifyButtonContainer {
+  width: 85px;
+  margin: 48px auto;
+}
+.verifyButton {
+  background: #f8746b;
+  border-radius: 5px;
+  padding: 8px 16px;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.separatorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.separator {
+  color: #c4c4c4;
+  width: 110px;
+}
+.separatorText {
+  color: #e2e8f0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+}
