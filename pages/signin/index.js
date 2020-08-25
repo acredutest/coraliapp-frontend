@@ -95,12 +95,14 @@ function SignIn(props) {
                   )}
                 </ErrorMessage>
               </div>
-              <button type="submit" className={styles.loginButton}>
-                Ingresar
-              </button>
-              <button className={styles.forgotPasswordButton}>
-                Olvidé mi contraseña
-              </button>
+              <div className={styles.buttonsContainer}>
+                <button type="submit" className={styles.loginButton}>
+                  Ingresar
+                </button>
+                <button className={styles.forgotPasswordButton}>
+                  Olvidé mi contraseña
+                </button>
+              </div>
             </Form>
           </>
         )}
