@@ -13,8 +13,8 @@ export const signIn = createAsyncThunk("auth/sign_in", async (body) => {
 });
 
 export const sign_up = createAsyncThunk("auth", async (body) => {
-  const response = await postFetch("/auth", body, null);
-  return response.data;
+  const response = await postFetchWithHeaders("/auth", body);
+  return response;
 });
 
 export const getUser = createAsyncThunk("auth/get_user", async () => {
@@ -41,8 +41,8 @@ export const authSlice = createSlice({
       console.error(action.error.message);
     },
     [sign_up.fulfilled]: (state, action) => {
-      state.token = action.payload.token;
-      localStorage.setItem("token", action.payload.token);
+      state.user = action.payload.data;
+      setCookieTokenObject(action.payload.headers);
     },
     [sign_up.rejected]: (state, action) => {
       console.error(action.error);
