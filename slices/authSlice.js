@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { postFetch, getFetch, postFetchWithHeaders } from "./../pages/api/client";
+import {
+  postFetch,
+  getFetch,
+  postFetchWithHeaders,
+} from "./../pages/api/client";
 import { setCookieTokenObject } from "../helpers/cookies.helpers";
 
 export const signIn = createAsyncThunk("auth/sign_in", async (body) => {
@@ -8,13 +12,13 @@ export const signIn = createAsyncThunk("auth/sign_in", async (body) => {
   return response;
 });
 
-export const sign_up = createAsyncThunk('auth/sign_up', async (body) => {
-  const response = await postFetch('/auth/sign_up', body, null);
+export const sign_up = createAsyncThunk("auth", async (body) => {
+  const response = await postFetch("/auth", body, null);
   return response.data;
 });
 
-export const getUser = createAsyncThunk('auth/get_user', async () => {
-  const response = await getFetch('/auth/validate_token');
+export const getUser = createAsyncThunk("auth/get_user", async () => {
+  const response = await getFetch("/auth/validate_token");
   return response;
 });
 
@@ -34,11 +38,11 @@ export const authSlice = createSlice({
       setCookieTokenObject(action.payload.headers);
     },
     [signIn.rejected]: (state, action) => {
-      console.error(action.error.message)
+      console.error(action.error.message);
     },
     [sign_up.fulfilled]: (state, action) => {
       state.token = action.payload.token;
-      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem("token", action.payload.token);
     },
     [sign_up.rejected]: (state, action) => {
       console.error(action.error);
@@ -47,8 +51,8 @@ export const authSlice = createSlice({
       state.user = action.payload.data;
     },
     [getUser.rejected]: (state, action) => {
-      console.error(action.error.message)
-    }
+      console.error(action.error.message);
+    },
   },
 });
 

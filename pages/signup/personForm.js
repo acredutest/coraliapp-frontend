@@ -41,8 +41,8 @@ function UserForm({ dispatch, router, setErrorMessage, errorMessage }) {
             const { error, payload } = await dispatch(sign_up(values));
             if (error) {
               setErrorMessage(error.message);
-            } else if (payload) {
-              router.push(payload.role);
+            } else if (payload.data) {
+              router.push(payload.data.role);
             }
             dispatch(loadingStopped());
           } catch (err) {
