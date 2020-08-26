@@ -2,7 +2,10 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "./footer";
+import { pdfjs } from `react-pdf`;
+import * as serviceWorker from "./serviceWorker";
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 export default function Home() {
   const path = {
     logo: "/img/Logo-home.png",
@@ -38,3 +41,4 @@ export default function Home() {
     </div>
   );
 }
+serviceWorker.unregister();

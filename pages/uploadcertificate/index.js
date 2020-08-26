@@ -13,6 +13,10 @@ import { logout } from "./../../slices/authSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { parse, isDate } from "date-fns";
+import CertificatePdf from "./certificatepdf";
+import { Page, Document, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
@@ -23,20 +27,37 @@ function parseDateString(value, originalValue) {
 }
 
 const validations = yup.object().shape({
-  idcertificate: yup.number().required(),
-  namecourse: yup.string().required(),
-  nameinstitution: yup.string().required(),
-  description: yup.string().required(),
-  issuedate: yup.date().transform(parseDateString).required(),
+  idcertificate: yup.number().required("ID de la credencial es requerida"),
+  namecourse: yup.string().required("Nombre del curso es requerido"),
+  nameinstitution: yup.string().required("Nombre de Institución es requerido"),
+  description: yup.string().required("Ingresa una descripción"),
+  issuedate: yup
+    .date()
+    .transform(parseDateString)
+    .required("Fecha de emisión es requerida"),
   expirydate: yup.date().transform(parseDateString),
 });
 const UploadCertificate = () => {
-  const [errorMessage, setErrorMessage] = useState("error inicial");
+  const path = {
+    iconcloud: "/img/inputUpload.pdf",
+  };
+  const [errorMessage, setErrorMessage] = useState("");
+  const [file, setFile] = useState(path.iconcloud);
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
   const router = useRouter();
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const onDocumentLoadSuccess = (numPage) => {
+    setNumPages(numPage);
+  };
+
   return (
-    <div>
+    <div className={styles.container}>
       <Formik
         initialValues={{
+          file: "",
           idcertificate: "",
           namecourse: "",
           nameinstitution: "",
@@ -45,16 +66,34 @@ const UploadCertificate = () => {
           expirydate: "",
         }}
         validationSchema={validations}
-        onSubmit={() => router.push("/webcertificate")}
+        onSubmit={(value) => {
+          console.log(value);
+          router.push("/webcertificate");
+        }}
       >
-        {({ status }) => (
+        {(status) => (
           <>
             <p className={`${styles.errorMessage} ${styles.error}`}>
               {errorMessage}
             </p>
             <Form>
+              <input
+                id="input"
+                type="file"
+                onChange={onFileChange}
+                className={styles.inputUpload}
+              ></input>
+              <label htmlFor="input" className={styles.label}>
+                <Document
+                  file={file}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  noData={<h4>Subir PDF</h4>}
+                >
+                  <Page pageNumber={pageNumber} width={300} />
+                </Document>
+              </label>
+
               <div className={styles.fullField}>
-                <label className={styles.label}>ID del certificado</label>
                 <Field
                   name="idcertificate"
                   type="number"
@@ -70,9 +109,6 @@ const UploadCertificate = () => {
                 </ErrorMessage>
               </div>
               <div className={styles.fullField}>
-                <label className={styles.label}>
-                  Nombre del Curso o Evento
-                </label>
                 <Field
                   name="namecourse"
                   type="text"
@@ -88,9 +124,6 @@ const UploadCertificate = () => {
                 </ErrorMessage>
               </div>
               <div className={styles.fullField}>
-                <label className={styles.label}>
-                  Institución emisora del certificado
-                </label>
                 <Field
                   name="nameinstitution"
                   type="text"
@@ -106,9 +139,6 @@ const UploadCertificate = () => {
                 </ErrorMessage>
               </div>
               <div className={styles.fullField}>
-                <label className={styles.label}>
-                  Descripción del Curso o Evento
-                </label>
                 <Field
                   name="description"
                   type="text"
@@ -124,13 +154,8 @@ const UploadCertificate = () => {
                 </ErrorMessage>
               </div>
               <div className={styles.fullField}>
-                <label className={styles.label}>Fecha Emisión</label>
-                <Field
-                  name="issuedate"
-                  type="date"
-                  placeholder="Fecha Emisión"
-                  className={styles.field}
-                />
+                <label className={styles.label}>Fecha emisión</label>
+                <Field name="issuedate" type="date" className={styles.field} />
                 <ErrorMessage name="issuedate">
                   {(msg) => (
                     <div>
@@ -140,7 +165,7 @@ const UploadCertificate = () => {
                 </ErrorMessage>
               </div>
               <div className={styles.fullField}>
-                <label className={styles.label}>Fecha Expiración</label>
+                <label className={styles.label}>Fecha expiración</label>
                 <Field
                   name="expirydate"
                   type="date"
@@ -155,10 +180,10 @@ const UploadCertificate = () => {
                   )}
                 </ErrorMessage>
               </div>
+              <button className={styles.forgotPasswordButton}>Cancelar</button>
               <button type="submit" className={styles.loginButton}>
                 Agregar Certificado
               </button>
-              <button className={styles.forgotPasswordButton}>Cancelar</button>
             </Form>
           </>
         )}

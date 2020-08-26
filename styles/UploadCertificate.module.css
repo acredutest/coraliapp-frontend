@@ -12,17 +12,24 @@
 }
 
 .label {
-  font-family: Noto Sans;
+  font-family: "Roboto", sans-serif;
   color: #2d3748;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
   margin-bottom: 6px;
 }
+.inputUpload {
+  display: none;
+}
+.label {
+  cursor: pointer;
+}
 .fullField {
   display: flex;
   flex-wrap: wrap;
   margin-top: 12px;
+  -webkit-appearance: none;
 }
 .field {
   background: #ffffff;
@@ -37,7 +44,7 @@
 .loginButton {
   background: #4bc0d0;
   border-radius: 4px;
-  font-family: Noto Sans;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -47,16 +54,15 @@
 }
 .forgotPasswordButton {
   color: #4bc0d0;
-  font-family: Noto Sans;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   padding: 8px 16px;
-  margin-left: 30px;
 }
 
 .newAccountText {
-  font-family: Noto Sans;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-size: 14px;
 }
