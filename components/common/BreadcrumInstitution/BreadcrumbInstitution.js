@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import { Flex, Box, Text, Heading, Button } from "@chakra-ui/core";
 
-import styles from './../../../styles/BreadcrumbInstitutionStyled.module.css';
+import styles from './../../../styles/BreadcrumbInstitution.module.css';
 import { ChevronLeft } from "heroicons-react";
 
 const BreadcrumbInstitution = ({ title, handleBackButton }) => {

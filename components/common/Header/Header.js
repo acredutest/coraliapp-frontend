@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from './../../../styles/HeaderInstitutionStyled.module.css';
+import styles from './../../../styles/HeaderInstitution.module.css';
 import { Flex, Box, Text, Heading, Button, Menu, MenuButton, MenuList, MenuItem, Avatar } from "@chakra-ui/core";
 import { useSelector } from "react-redux";
 
