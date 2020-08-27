@@ -1,11 +1,13 @@
 import React from 'react';
 import ProtectRoute from '../../hocs/ProtectedRoute';
+import InstitutionLayout from '../../layouts/InstitutionLayout/InstitutionLayout';
+import { BreadcrumbInstitution } from '../../components/common/BreadcrumInstitution';
 
 const Institution = () => {
   return (
-    <>
-      <h1>Institution</h1>
-    </>
+    <InstitutionLayout>
+      <BreadcrumbInstitution title={"Certificados Diseñados"}/>
+    </InstitutionLayout>
   );
 }
 
