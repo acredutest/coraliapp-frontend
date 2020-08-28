@@ -88,8 +88,8 @@ function Verify() {
                 const { error, payload } = await dispatch(
                   credentialByCode({ code: idCredential })
                 );
-                if (payload.data.error) {
-                  setErrorMessage(payload.data.error);
+                if (payload.data.length === 0) {
+                  setErrorMessage("Credential not found");
                 } else {
                   const base64 = btoa(JSON.stringify(payload));
                   router.push(`./verificador/certificado?data=${base64}`);
@@ -98,7 +98,7 @@ function Verify() {
                 const { error, payload } = await dispatch(
                   userByDNI({ dni: dni })
                 );
-                if (payload.length === 0) {
+                if (payload.data.length === 0) {
                   setErrorMessage("User not found");
                 } else {
                   const base64 = btoa(JSON.stringify(payload));
