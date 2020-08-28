@@ -20,7 +20,7 @@
   font-weight: normal;
   font-size: 18px;
   text-align: center;
-  margin: 15px 0px 50px;
+  margin: 15px 0px 30px;
 }
 
 .field {
@@ -74,4 +74,130 @@
   color: #f56565;
   font-size: 12px;
   margin-top: 5px;
+}
+
+/*verificador/certificado*/
+
+.certificadoBody {
+  background: #f4f5f6;
+  font-family: Noto Sans;
+  min-height: 100vh;
+}
+.certificadoContainer {
+  width: 260px;
+  margin: auto;
+  padding: 70px 0 0;
+}
+
+.grayBorder {
+  border: 2px solid #718096;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 9px 10px;
+  margin-bottom: 18px;
+}
+
+.padlockContainer {
+  background: rgba(181, 239, 251, 0.38);
+  border: 2px solid #4bc0d0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 9px 10px;
+  margin-bottom: 18px;
+}
+.padlockContent {
+  color: #000000;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10px;
+}
+.certificadoTitle {
+  color: #000000;
+  font-style: normal;
+  font-size: 16px;
+}
+.wordBold {
+  font-weight: bold;
+}
+.certificadoContent {
+  color: #2e384d;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.backButton {
+  padding: 8px 14px;
+  font-style: normal;
+  font-size: 14px;
+}
+
+.verifyWithOtherInfo {
+  background: #4bc0d0;
+  border-radius: 4px;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 14px;
+}
+
+.displayFlex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.widtOneHundred {
+  width: 90%;
+  margin: auto;
+  border-bottom: 1px solid #c4c4c4;
+  padding-bottom: 30px;
+}
+
+.contactToLinkedin {
+  background: #4299e1;
+  border-radius: 4px;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  padding: 8px 15px;
+}
+
+.otherVerifyContainer {
+  background: #2e384d;
+  width: 100%;
+  height: 76px;
+  position: sticky;
+  bottom: 0;
+}
+
+.otherVerifyButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 76px;
+}
+.otherVerifyButton {
+  border-radius: 5px;
+  background: #f8746b;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  padding: 8px 15px;
+}
+
+.error {
+  color: #f56565;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.errorMessage {
+  text-align: center;
+  font-size: 15px;
 }
