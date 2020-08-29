@@ -9,14 +9,6 @@ export const getCredentials = createAsyncThunk(
   }
 );
 
-export const credentialByCode = createAsyncThunk(
-  "credentials/credential_by_code",
-  async (code) => {
-    const response = await postFetch("/verifycode", code);
-    return response;
-  }
-);
-
 export const credentialsSlice = createSlice({
   name: "credentials",
   initialState: { credentials: null, error: null },

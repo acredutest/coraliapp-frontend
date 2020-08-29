@@ -7,8 +7,6 @@ import Head from "next/head";
 
 import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { credentialByCode } from "./../../slices/credentialsSlice";
-import { userByDNI } from "./../../slices/authSlice";
 
 const validations = yup.object().shape(
   {
@@ -58,9 +56,6 @@ function Verify() {
   };
 
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState("");
-  const loading = useSelector((state) => state.status.loading);
-  const dispatch = useDispatch();
 
   return (
     <div className={styles.body}>
@@ -82,78 +77,48 @@ function Verify() {
           }}
           validationSchema={validations}
           onSubmit={async ({ dni, idCredential }) => {
-            try {
-              dispatch(loadingStarted());
-              if (idCredential) {
-                const { error, payload } = await dispatch(
-                  credentialByCode({ code: idCredential })
-                );
-                if (payload.data.length === 0) {
-                  setErrorMessage("Credential not found");
-                } else {
-                  const base64 = btoa(JSON.stringify(payload));
-                  router.push(`./verificador/certificado?data=${base64}`);
-                }
-              } else {
-                const { error, payload } = await dispatch(
-                  userByDNI({ dni: dni })
-                );
-                if (payload.data.length === 0) {
-                  setErrorMessage("User not found");
-                } else {
-                  const base64 = btoa(JSON.stringify(payload));
-                  router.push(`./verificador/user?data=${base64}`);
-                }
-              }
-              dispatch(loadingStopped());
-            } catch (err) {
-              console.error("Failed to search: ", err);
+            if (idCredential.length > 1) {
+              router.push(`./verificador/${idCredential}`);
+            } else {
+              router.push(`./verificador/user/${dni}`);
             }
           }}
         >
           {({ status }) => (
-            <>
-              {errorMessage && (
-                <p className={`${styles.errorMessage} ${styles.error}`}>
-                  {errorMessage[0].toUpperCase() + errorMessage.slice(1)}
-                </p>
-              )}
-
-              <Form>
-                <div className={styles.fullField}>
-                  <Field
-                    className={styles.field}
-                    placeholder="Documento de identidad"
-                    name="dni"
-                    type="text"
-                  />
-                  <ErrorMessage name="dni">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.separatorContainer}>
-                  <hr className={styles.separator} />
-                  <p className={styles.separatorText}>o</p>
-                  <hr className={styles.separator} />
-                </div>
-                <div className={styles.fullField}>
-                  <Field
-                    className={styles.field}
-                    placeholder="ID de la credencial"
-                    name="idCredential"
-                    type="text"
-                  />
-                  <ErrorMessage name="idCredential">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.verifyButtonContainer}>
-                  <button type="submit" className={styles.verifyButton}>
-                    Verificar
-                  </button>
-                </div>
-              </Form>
-            </>
+            <Form>
+              <div className={styles.fullField}>
+                <Field
+                  className={styles.field}
+                  placeholder="Documento de identidad"
+                  name="dni"
+                  type="text"
+                />
+                <ErrorMessage name="dni">
+                  {(msg) => <p className={styles.error}>{msg}</p>}
+                </ErrorMessage>
+              </div>
+              <div className={styles.separatorContainer}>
+                <hr className={styles.separator} />
+                <p className={styles.separatorText}>o</p>
+                <hr className={styles.separator} />
+              </div>
+              <div className={styles.fullField}>
+                <Field
+                  className={styles.field}
+                  placeholder="ID de la credencial"
+                  name="idCredential"
+                  type="text"
+                />
+                <ErrorMessage name="idCredential">
+                  {(msg) => <p className={styles.error}>{msg}</p>}
+                </ErrorMessage>
+              </div>
+              <div className={styles.verifyButtonContainer}>
+                <button type="submit" className={styles.verifyButton}>
+                  Verificar
+                </button>
+              </div>
+            </Form>
           )}
         </Formik>
       </div>

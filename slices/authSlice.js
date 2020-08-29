@@ -22,10 +22,6 @@ export const getUser = createAsyncThunk("auth/get_user", async () => {
   return response;
 });
 
-export const userByDNI = createAsyncThunk("/verifydni", async (dni) => {
-  const response = await postFetch("/verifydni", dni);
-  return response;
-});
 export const authSlice = createSlice({
   name: "auth",
   initialState: {

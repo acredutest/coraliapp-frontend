@@ -201,3 +201,20 @@
   text-align: center;
   font-size: 15px;
 }
+
+.notFoundTitle {
+  color: #2d3748;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+.notFoundText {
+  color: #4a5568;
+  font-size: 30px;
+  font-weight: 500;
+}
+.notFoundContainer {
+  width: 350px;
+  margin: auto;
+  padding: 100px 0 0;
+}
