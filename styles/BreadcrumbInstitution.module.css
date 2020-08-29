@@ -3,6 +3,9 @@
 }
 
 .backButton {
+  height: 1rem !important;
+  min-width: 20px !important;
+  padding: 0px 30px 0px 0px !important;
   background-color: transparent !important;
   border: none;
   cursor: pointer;

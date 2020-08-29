@@ -1,0 +1,20 @@
+.containerInputs {
+  width: 70%;
+}
+
+.containerCredential {
+  width: 100%;
+}
+
+.inputText {
+  margin-bottom: 20px;
+}
+
+.imageCredential {
+  width: 100%;
+}
+
+.containerSignature {
+  color: #BABABA;
+  margin-bottom: 20px;
+}
