@@ -5,8 +5,8 @@ import Footer from "./footer";
 import { pdfjs } from `react-pdf`;
 import * as serviceWorker from "./serviceWorker";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 export default function Home() {
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   const path = {
     logo: "/img/Logo-home.png",
     logofooter: "/img/Logo_coralify_footer.png",

@@ -16,7 +16,7 @@ import { parse, isDate } from "date-fns";
 import CertificatePdf from "./certificatepdf";
 import { Page, Document, pdfjs } from "react-pdf";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
