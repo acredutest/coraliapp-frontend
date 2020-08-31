@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getFetch } from "../pages/api/client";
+import { getFetch, postFetch } from "../pages/api/client";
 
 export const getCredentials = createAsyncThunk(
   "credentials/get_credentials",
@@ -11,7 +11,7 @@ export const getCredentials = createAsyncThunk(
 
 export const credentialsSlice = createSlice({
   name: "credentials",
-  initialState: { credentials: null , error: null },
+  initialState: { credentials: null, error: null },
   reducers: {},
   extraReducers: {
     [getCredentials.fulfilled]: (state, action) => {
