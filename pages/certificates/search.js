@@ -4,6 +4,7 @@ import styles from "./../../styles/Certificates.module.scss";
 import FrameCertificate from "./_components/FrameCertificate";
 import DNIForm from "./_components/DNIForm";
 import InfoSection from "./_components/InfoSection";
+import { useDispatch, useSelector } from "react-redux";
 
 const messages = {
   onSearch: `Descubre que certificados tienes disponibles para ti en el sistema,
@@ -43,7 +44,8 @@ const Certificates = () => {
           message={message}
           setMessage={setMessage}
           dispatch={dispatch}
-          dni={user.dni}
+          dni={"43457634"}
+          // user.dni
         />
         {currentState !== "onSearch" && (
           <InfoSection setCurrentState={setCurrentState} />
