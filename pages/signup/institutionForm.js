@@ -9,18 +9,18 @@ import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
 
 const validations = yup.object().shape({
-  institution_name: yup
+  name: yup
     .string()
     .required("Información requerida")
     .min(3, "Debe tener más de 2 caracteres"),
-  website: yup
+  web: yup
     .string()
     .matches(
       /^((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
       "Debe ser un website válido"
     )
     .required("Información requerida"),
-  institution_email: yup
+  email: yup
     .string()
     .email("Debe ser un email válido")
     .required("Información requerida"),
@@ -32,16 +32,23 @@ function InstitutionForm({ dispatch, router, setErrorMessage, errorMessage }) {
     <div>
       <Formik
         initialValues={{
-          institution_name: "",
-          website: "",
-          institution_email: "",
+          name: "",
+          web: "",
+          email: "",
           password: "",
         }}
         validationSchema={validations}
         onSubmit={async (values, { setStatus }) => {
           try {
             dispatch(loadingStarted());
-            const { error, payload } = await dispatch(sign_up(values));
+            const data = {
+              name: values.name,
+              web: values.web,
+              email: values.email,
+              password: values.password,
+              role: "institution",
+            };
+            const { error, payload } = await dispatch(sign_up(data));
             if (error) {
               setErrorMessage(error.message);
             } else if (payload.data) {
@@ -62,12 +69,12 @@ function InstitutionForm({ dispatch, router, setErrorMessage, errorMessage }) {
               <div className={styles.fullField}>
                 <label className={styles.label}>Nombre de la Institución</label>
                 <Field
-                  name="institution_name"
+                  name="name"
                   type="text"
                   placeholder="Codeable"
                   className={styles.field}
                 />
-                <ErrorMessage name="institution_name">
+                <ErrorMessage name="name">
                   {(msg) => (
                     <div>
                       <p className={styles.error}>{msg}</p>
@@ -78,12 +85,12 @@ function InstitutionForm({ dispatch, router, setErrorMessage, errorMessage }) {
               <div className={styles.fullField}>
                 <label className={styles.label}>Página web</label>
                 <Field
-                  name="website"
+                  name="web"
                   type="text"
                   placeholder="www.tuweb.com"
                   className={styles.field}
                 />
-                <ErrorMessage name="website">
+                <ErrorMessage name="web">
                   {(msg) => (
                     <div>
                       <p className={styles.error}>{msg}</p>
@@ -94,12 +101,12 @@ function InstitutionForm({ dispatch, router, setErrorMessage, errorMessage }) {
               <div className={styles.fullField}>
                 <label className={styles.label}>Email institucional</label>
                 <Field
-                  name="institution_email"
+                  name="email"
                   type="email"
                   placeholder="tu@correo.com"
                   className={styles.field}
                 />
-                <ErrorMessage name="institution_email">
+                <ErrorMessage name="email">
                   {(msg) => (
                     <div>
                       <p className={styles.error}>{msg}</p>
