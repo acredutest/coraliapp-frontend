@@ -4,6 +4,7 @@ import {
   postFetch,
   getFetch,
   postFetchWithHeaders,
+  patchFetch,
 } from "./../pages/api/client";
 import { setCookieTokenObject } from "../helpers/cookies.helpers";
 
@@ -19,6 +20,11 @@ export const sign_up = createAsyncThunk("auth", async (body) => {
 
 export const getUser = createAsyncThunk("auth/get_user", async () => {
   const response = await getFetch("/auth/validate_token");
+  return response;
+});
+
+export const updateUser = createAsyncThunk("user/edit", async (id, body) => {
+  const response = await patchFetch(`/users/${id}`, body);
   return response;
 });
 
@@ -51,6 +57,12 @@ export const authSlice = createSlice({
       state.user = action.payload.data;
     },
     [getUser.rejected]: (state, action) => {
+      console.error(action.error.message);
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.user = action.payload.data;
+    },
+    [updateUser.rejected]: (state, action) => {
       console.error(action.error.message);
     },
   },
