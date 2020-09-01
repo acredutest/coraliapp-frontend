@@ -10,17 +10,17 @@ import { BookOpen } from 'heroicons-react';
 const getSteps = (goToStep) =>
   ([
     {
-      title: <Text fontSize="xs" color={'#2E384D'}>Paso 1</Text>,
+      title: '<Text fontSize="xs" color={"#2E384D"}>Paso 1</Text>',
       icon: "/images/photograph.svg",
       onClick: () => goToStep(1)
     },
     {
-      title: <Text fontSize="xs" color={'#2E384D'}>Paso 2</Text>,
+      title: '<Text fontSize="xs" color={"#2E384D"}>Paso 2</Text>',
       icon: "/images/pencil-alt.svg",
       onClick: () => goToStep(3)
     },
     {
-      title: <Text fontSize="xs" color={'#2E384D'}>Paso 3</Text>,
+      title: '<Text fontSize="xs" color={"#2E384D"}>Paso 3</Text>',
       icon: "/images/user-add.svg",
       onClick: () => goToStep(3)
     },

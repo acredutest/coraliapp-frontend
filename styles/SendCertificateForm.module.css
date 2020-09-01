@@ -1,0 +1,19 @@
+.inpuntTooltip {
+  z-index: 10;
+}
+
+.inputText {
+  margin-bottom: 20px;
+}
+
+.containerRecipients {
+  margin-bottom: 20px;
+}
+
+.containerInputs {
+  width: 80%;
+}
+
+.containerLetter {
+  width: 100%;
+}
