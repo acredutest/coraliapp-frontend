@@ -83,13 +83,8 @@ const postFetchWithHeaders = async (endpoint, body) => {
 
 // To edit!!!
 const patchFetch = async (endpoint, body) => {
-  // let headers = {
-  //   "content-type": "application/json",
-  //   Authorization: `Bearer ${token}`,
-  // };
-
   try {
-    const response = await fetch(`${APIURL}${endpoint}`, {
+    const response = await fetch(`${API_URL}${endpoint}`, {
       method: "PATCH",
       headers,
       body: JSON.stringify(body),

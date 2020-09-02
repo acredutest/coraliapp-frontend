@@ -23,11 +23,6 @@ export const getUser = createAsyncThunk("auth/get_user", async () => {
   return response;
 });
 
-export const updateUser = createAsyncThunk("user/edit", async (id, body) => {
-  const response = await patchFetch(`/users/${id}`, body);
-  return response;
-});
-
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -36,6 +31,9 @@ export const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.token = null;
+    },
+    updateUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: {
@@ -59,15 +57,9 @@ export const authSlice = createSlice({
     [getUser.rejected]: (state, action) => {
       console.error(action.error.message);
     },
-    [updateUser.fulfilled]: (state, action) => {
-      state.user = action.payload.data;
-    },
-    [updateUser.rejected]: (state, action) => {
-      console.error(action.error.message);
-    },
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, updateUser } = authSlice.actions;
 
 export default authSlice.reducer;

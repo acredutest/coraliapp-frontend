@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { sign_up } from "./../../slices/authSlice";
 import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
@@ -11,6 +10,8 @@ import { useDispatch } from "react-redux";
 import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { updateUser } from "../../slices/authSlice";
 import { useRouter } from "next/router";
+
+import { patchFetch } from "../api/client";
 
 const validations = yup.object().shape({
   name: yup
@@ -45,7 +46,6 @@ const UserEdit = () => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  console.log(user.id);
   return (
     <div className={styles.container} style={{ paddingBottom: "20px" }}>
       <Head>
@@ -66,19 +66,17 @@ const UserEdit = () => {
             password: "",
           }}
           validationSchema={validations}
-          onSubmit={async (values, { setStatus }) => {
+          onSubmit={async (values) => {
             try {
-              // dispatch(loadingStarted());
-              const { error, payload } = await dispatch(
-                updateUser(user.id, values)
-              );
-              // if (error) {
-              //   setErrorMessage(error.message);
-              // } else if (payload.data) {
-              //   router.push("/user");
-              // }
-              console.log(error);
-              // dispatch(loadingStopped());
+              dispatch(loadingStarted());
+              const res = await patchFetch(`/users/${user.id}`, values);
+              if (res.data) {
+                dispatch(updateUser(values));
+                router.push("/user");
+              } else {
+                setErrorMessage("No se pudo actualizar los datos");
+              }
+              dispatch(loadingStopped());
             } catch (err) {
               console.error("Failed to signup ", err);
             }
