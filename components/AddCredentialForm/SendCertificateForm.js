@@ -4,7 +4,7 @@ import mainStyles from './../../styles/Main.module.css';
 import addCredentialstyles from './../../styles/AddCredentialForm.module.css';
 import styles from './../../styles/SendCertificateForm.module.css';
 import { Formik, Form, Field } from 'formik';
-import { Upload, InformationCircle } from "heroicons-react";
+import { Upload, InformationCircle, Mail } from "heroicons-react";
 import {
   Box,
   Grid,
@@ -107,6 +107,23 @@ const SendCertificateForm = ({ totalSteps, currentStep, nextStep, previousStep }
                   </Flex>
                 </Box>
                 <Box className={styles.containerLetter}>
+                  <Flex>
+                    <Flex>
+                      <Flex>
+                        <Mail/>
+                      </Flex>
+                      <Flex>
+                        <Text>De: Usuario Admin</Text>
+                        <Text>Para: [Lista de usuarios]</Text>
+                        <Text></Text>
+                      </Flex>
+                    </Flex>
+                    <Flex>
+                      <Text>
+                        Hola  [Nombre] ¡Felicitaciones! tu esfuerzo valio la pena, lograste finalizar el Bootcamp satisfactoriamente, accede a tu certificado en el siguiente enlace:
+                      </Text>
+                    </Flex>
+                  </Flex>
                 </Box>
               </Grid>
             </Box>

@@ -1,0 +1,13 @@
+.container {
+  min-width: 100%;
+  padding: 1.5rem;
+}
+
+.containerText {
+  padding: 20px;
+  max-width: 35%;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
