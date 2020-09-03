@@ -16,7 +16,7 @@ export default function Home() {
     background: "/img/landing-users.png",
   };
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Coraliapp | Home</title>
       </Head>
@@ -35,10 +35,9 @@ export default function Home() {
             </div>
           </Link>
         </div>
-
       </div>
         <Footer />
-    </div>
+    </>
   );
 }
 serviceWorker.unregister();
