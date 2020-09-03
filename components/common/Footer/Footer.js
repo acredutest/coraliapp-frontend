@@ -1,5 +1,5 @@
 import styles from "./../../../styles/Home.module.css";
-import { Button, Text, Box, Flex, Link } from '@chakra-ui/core';
+import { Text, Flex, Link } from '@chakra-ui/core';
 
 export const Footer = () => {
   const path = {
