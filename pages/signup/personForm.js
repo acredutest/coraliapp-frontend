@@ -1,59 +1,52 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
-import { signIn } from "./../../slices/authSlice";
+import { sign_up } from "./../../slices/authSlice";
 import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 
 import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
 
 const validations = yup.object().shape({
+  name: yup
+    .string()
+    .required("Información requerida")
+    .min(3, "Nombre debe tener más de 2 caracteres"),
+  last_name: yup
+    .string()
+    .required("Información requerida")
+    .min(2, "Apellido debe tener más de 1 caracter"),
   email: yup
     .string()
-    .email("El formato del correo no es el correcto")
+    .email("Debe ser un email válido")
     .required("Información requerida"),
   password: yup.string().required("Información requerida"),
 });
 
-function SignIn(props) {
-  const [errorMessage, setErrorMessage] = useState("");
-  const user = useSelector((state) => state.auth.user);
-  const loading = useSelector((state) => state.status.loading);
-  const router = useRouter();
-  const dispatch = useDispatch();
-
+function UserForm({ dispatch, router, setErrorMessage, errorMessage }) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Ingresar</h1>
-      {/* -{user ? user.email : "..."}- -
-      {`${loading}`}- */}
+    <div>
       <Formik
         initialValues={{
-          email: "nicolle@gmail.com",
-          password: "nicolle1234",
+          name: "",
+          last_name: "",
+          email: "",
+          password: "",
         }}
         validationSchema={validations}
         onSubmit={async (values, { setStatus }) => {
           try {
             dispatch(loadingStarted());
-            const { error, payload } = await dispatch(signIn(values));
+            const { error, payload } = await dispatch(sign_up(values));
             if (error) {
-              if (error.message.startsWith("Invalid")) {
-                setErrorMessage("Email o password son incorrectos");
-              } else {
-                setErrorMessage(error.message);
-              }
+              setErrorMessage(error.message);
             } else if (payload.data) {
               router.push(payload.data.role);
             }
             dispatch(loadingStopped());
           } catch (err) {
-            console.error("Failed to login: ", err);
+            console.error("Failed to signup ", err);
           }
         }}
       >
@@ -63,6 +56,38 @@ function SignIn(props) {
               {errorMessage}
             </p>
             <Form>
+              <div className={styles.fullField}>
+                <label className={styles.label}>Nombre</label>
+                <Field
+                  name="name"
+                  type="text"
+                  placeholder="Tu nombre"
+                  className={styles.field}
+                />
+                <ErrorMessage name="name">
+                  {(msg) => (
+                    <div>
+                      <p className={styles.error}>{msg}</p>
+                    </div>
+                  )}
+                </ErrorMessage>
+              </div>
+              <div className={styles.fullField}>
+                <label className={styles.label}>Apellido</label>
+                <Field
+                  name="last_name"
+                  type="text"
+                  placeholder="Tu apellido"
+                  className={styles.field}
+                />
+                <ErrorMessage name="last_name">
+                  {(msg) => (
+                    <div>
+                      <p className={styles.error}>{msg}</p>
+                    </div>
+                  )}
+                </ErrorMessage>
+              </div>
               <div className={styles.fullField}>
                 <label className={styles.label}>Email</label>
                 <Field
@@ -84,7 +109,7 @@ function SignIn(props) {
                 <Field
                   name="password"
                   type="password"
-                  placeholder="*********"
+                  placeholder="Tu contraseña"
                   className={styles.field}
                 />
                 <ErrorMessage name="password">
@@ -97,24 +122,20 @@ function SignIn(props) {
               </div>
               <div className={styles.buttonsContainer}>
                 <button type="submit" className={styles.loginButton}>
-                  Ingresar
+                  Registrarme
                 </button>
-                <button className={styles.forgotPasswordButton}>
-                  Olvidé mi contraseña
-                </button>
+                <Link href="/signin">
+                  <button className={styles.forgotPasswordButton}>
+                    Ya tengo una cuenta
+                  </button>
+                </Link>
               </div>
             </Form>
           </>
         )}
       </Formik>
-      <div className={styles.signUpLink}>
-        <p className={styles.newAccountText}>¿Necesitas una cuenta?</p>
-        <Link href="/signup">
-          <span className={styles.signUp}>Registrate</span>
-        </Link>
-      </div>
     </div>
   );
 }
 
-export default SignIn;
+export default UserForm;
