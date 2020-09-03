@@ -1,5 +1,15 @@
-@tailwind base;
+*,
+*::before,
+*::after {
+  margin: 0px;
+  padding: 0px;
+}
 
-@tailwind components;
+button {
+  border: none;
+  cursor: pointer;
+}
 
-@tailwind utilities;
+input {
+  border-color: rgb(203, 213, 224) !important;
+}

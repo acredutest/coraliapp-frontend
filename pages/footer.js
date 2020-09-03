@@ -2,7 +2,7 @@ import styles from "../styles/Home.module.css";
 
 export default function Footer() {
   const path = {
-    logofooter: "/img/Logo_coralify_footer.png",
+    logofooter: "/images/logo-small.png",
     facebook: "/img/icon_facebook1.png",
     youtube: "/img/icon_youtube1.png",
     linkedin: "/img/icon_linkedin1.png",

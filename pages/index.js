@@ -8,8 +8,8 @@ import * as serviceWorker from "./serviceWorker";
 export default function Home() {
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   const path = {
-    logo: "/img/Logo-home.png",
-    logofooter: "/img/Logo_coralify_footer.png",
+    logo: "/images/logo.png",
+    logofooter: "/images/logo-small.png",
     facebook: "/img/icon_facebook1.png",
     youtube: "/img/icon_youtube1.png",
     linkedin: "/img/icon_linkedin1.png",

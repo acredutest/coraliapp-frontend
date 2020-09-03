@@ -8,7 +8,7 @@ import { loadingStarted, loadingStopped } from "../slices/statusSlice";
 
 export default function ProtectRoute(Component) {
   return () => {
-    const [hasPermission, setHaspermission] = useState(false);
+    const [hasPermission, setHasPermission] = useState(false);
     const user = useSelector(state => state.auth.user);
     const loading = useSelector(state => state.status.loading);
     const dispatch = useDispatch();
@@ -29,14 +29,14 @@ export default function ProtectRoute(Component) {
             router.push('404')
           }
           else {
-            setHaspermission(true);
+            setHasPermission(true);
           }
         }
         else if (!getCookieTokenObject) {
           router.push('/signin');
         }
         else {
-          setHaspermission(true);
+          setHasPermission(true);
         }
       }
 
