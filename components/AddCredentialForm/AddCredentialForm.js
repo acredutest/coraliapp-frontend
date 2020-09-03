@@ -3,6 +3,7 @@ import StepWizard from 'react-step-wizard';
 import AddCredentialNav from './AddCredentialNav';
 import SelectDesignForm from './SelectDesignForm';
 import FillBodyForm from './FillBodyForm';
+import SendCertificateForm from './SendCertificateForm';
 
 
 const Some = (props) => {
@@ -20,8 +21,7 @@ const AddCredentialForm = (props) => {
     >
       <SelectDesignForm />
       <FillBodyForm />
-      <Some />
-      <p>Holi 3</p>
+      <SendCertificateForm/>
     </StepWizard>
   );
 }
