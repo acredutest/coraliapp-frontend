@@ -35,6 +35,9 @@ export const authSlice = createSlice({
     updateUser: (state, action) => {
       state.user = action.payload;
     },
+    addImage: (state, action) => {
+      state.user.image = action.payload;
+    },
   },
   extraReducers: {
     [signIn.fulfilled]: (state, action) => {
@@ -53,6 +56,7 @@ export const authSlice = createSlice({
     },
     [getUser.fulfilled]: (state, action) => {
       state.user = action.payload.data;
+      state.user.image = null;
     },
     [getUser.rejected]: (state, action) => {
       console.error(action.error.message);
@@ -60,6 +64,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout, updateUser } = authSlice.actions;
+export const { logout, updateUser, addImage } = authSlice.actions;
 
 export default authSlice.reducer;

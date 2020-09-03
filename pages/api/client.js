@@ -100,4 +100,26 @@ const patchFetch = async (endpoint, body) => {
   }
 };
 
-export { getFetch, postFetch, postFetchWithHeaders, patchFetch };
+const patchImageFetch = async (endpoint, body) => {
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: "PATCH",
+      body: body,
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return { data };
+    } else {
+      return Promise.reject(data.errors.message);
+    }
+  } catch (error) {
+    return Promise.reject({ message: "Network error" });
+  }
+};
+export {
+  getFetch,
+  postFetch,
+  postFetchWithHeaders,
+  patchFetch,
+  patchImageFetch,
+};

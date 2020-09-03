@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
 import Head from "next/head";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ProtectedRoute from "./../../hocs/ProtectedRoute";
-import { updateUser } from "../../slices/authSlice";
+import { updateUser, addImage } from "../../slices/authSlice";
 import { useRouter } from "next/router";
-
-import { patchFetch } from "../api/client";
+import { patchFetch, getFetch, patchImageFetch } from "../api/client";
 
 const validations = yup.object().shape({
   name: yup
@@ -45,7 +42,47 @@ const UserEdit = () => {
 
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
+  const [imageUser, setImageUser] = useState(path.profileImg);
   const router = useRouter();
+  const [imagePreview, setImagePreview] = useState("");
+  let state = { image: null };
+
+  useEffect(() => {
+    const getImage = async () => {
+      const res = await getFetch(`/users/${user.id}/image-profile`);
+      if (res.data.image_url) {
+        setImageUser(res.data.image_url);
+      }
+    };
+    if (user) {
+      getImage();
+    }
+  }, []);
+
+  if (imageUser !== path.profileImg) {
+    console.log("hola");
+    console.log(imageUser);
+    dispatch(addImage(imageUser));
+  }
+
+  const featImage = "";
+  const hiddenImageInput = React.useRef(null);
+  const handleClick = (event) => {
+    event.preventDefault();
+    hiddenImageInput.current.click();
+  };
+  const handleChange = (event) => {
+    state[image] = event.target.files[0];
+    const image = event.target.files[0];
+    const reader = new FileReader();
+    const hola = reader.readAsDataURL(image);
+
+    reader.onloadend = function () {
+      setImagePreview(reader.result);
+    };
+  };
+
+  console.log(state);
   return (
     <div className={styles.container} style={{ paddingBottom: "20px" }}>
       <Head>
@@ -68,128 +105,158 @@ const UserEdit = () => {
           validationSchema={validations}
           onSubmit={async (values) => {
             try {
-              dispatch(loadingStarted());
-              const res = await patchFetch(`/users/${user.id}`, values);
-              if (res.data) {
+              let res = "";
+              let resImage = "";
+              if (values) {
+                res = await patchFetch(`/users/${user.id}`, values);
+              }
+              if (featImage) {
+                const formData = new FormData();
+                console.log(featImage);
+                formData.append("image", featImage);
+                resImage = await patchImageFetch(
+                  `/users/${user.id}/image-profile`,
+                  formData
+                );
+              }
+              if (res.data && !resImage.data) {
                 dispatch(updateUser(values));
                 router.push("/user");
+              } else if (resImage.data && !res.data) {
+                dispatch(addImage(resImage.data.image_url));
+                // router.push("/user");
               } else {
-                setErrorMessage("No se pudo actualizar los datos");
+                dispatch(updateUser(values));
+                dispatch(addImage(resImage.data.image_url));
+                router.push("/user");
               }
-              dispatch(loadingStopped());
             } catch (err) {
               console.error("Failed to signup ", err);
             }
           }}
         >
           {({ status }) => (
-            <Form>
-              <div className={styles.logoContainer} style={{ width: "80px" }}>
-                <img
-                  src={user.image ? user.image : path.profileImg}
-                  alt="profile"
-                  style={{
-                    borderRadius: "50%",
-                    border: "1px solid black",
-                  }}
-                />
-                <button
-                  style={{
-                    position: "relative",
-                    rigth: 0,
-                    left: "54px",
-                    bottom: "18px",
-                  }}
+            <>
+              <p className={`${styles.errorMessage} ${styles.error}`}>
+                {errorMessage}
+              </p>
+              <Form>
+                <div className={styles.logoContainer} style={{ width: "80px" }}>
+                  <img
+                    src={imagePreview ? imagePreview : imageUser}
+                    alt="profile"
+                    style={{
+                      borderRadius: "50%",
+                      border: "1px solid black",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      rigth: 0,
+                      left: "54px",
+                      bottom: "18px",
+                    }}
+                  >
+                    <button onClick={handleClick}>
+                      <img src={path.addImg} />
+                    </button>
+                    <input
+                      type="file"
+                      id="input"
+                      onChange={handleChange}
+                      style={{ display: "none" }}
+                      ref={hiddenImageInput}
+                    />
+                  </div>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Nombre</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="Nombre"
+                    name="name"
+                    type="text"
+                  />
+                  <ErrorMessage name="name">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Apellido</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="Apellido"
+                    name="last_name"
+                    type="text"
+                  />
+                  <ErrorMessage name="last_name">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Documento de Identidad</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="12345678"
+                    name="dni"
+                    type="text"
+                  />
+                  <ErrorMessage name="dni">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Cuenta Linkedin</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="https://linkedin.com/tucuenta"
+                    name="linkedin"
+                    type="text"
+                  />
+                  <ErrorMessage name="linkedin">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Email</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="Email"
+                    name="email"
+                    type="text"
+                  />
+                  <ErrorMessage name="email">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Contraseña</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="*********"
+                    name="password"
+                    type="password"
+                  />
+                  <ErrorMessage name="password">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div
+                  className={styles.buttonsContainer}
+                  style={{ marginTop: "15px" }}
                 >
-                  <img src={path.addImg} />
-                </button>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Nombre</label>
-                <Field
-                  className={styles.field}
-                  placeholder="Nombre"
-                  name="name"
-                  type="text"
-                />
-                <ErrorMessage name="name">
-                  {(msg) => <p className={styles.error}>{msg}</p>}
-                </ErrorMessage>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Apellido</label>
-                <Field
-                  className={styles.field}
-                  placeholder="Apellido"
-                  name="last_name"
-                  type="text"
-                />
-                <ErrorMessage name="last_name">
-                  {(msg) => <p className={styles.error}>{msg}</p>}
-                </ErrorMessage>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Documento de Identidad</label>
-                <Field
-                  className={styles.field}
-                  placeholder="12345678"
-                  name="dni"
-                  type="text"
-                />
-                <ErrorMessage name="dni">
-                  {(msg) => <p className={styles.error}>{msg}</p>}
-                </ErrorMessage>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Cuenta Linkedin</label>
-                <Field
-                  className={styles.field}
-                  placeholder="https://linkedin.com/tucuenta"
-                  name="linkedin"
-                  type="text"
-                />
-                <ErrorMessage name="linkedin">
-                  {(msg) => <p className={styles.error}>{msg}</p>}
-                </ErrorMessage>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Email</label>
-                <Field
-                  className={styles.field}
-                  placeholder="Email"
-                  name="email"
-                  type="text"
-                />
-                <ErrorMessage name="email">
-                  {(msg) => <p className={styles.error}>{msg}</p>}
-                </ErrorMessage>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Contraseña</label>
-                <Field
-                  className={styles.field}
-                  placeholder="*********"
-                  name="password"
-                  type="password"
-                />
-                <ErrorMessage name="password">
-                  {(msg) => <p className={styles.error}>{msg}</p>}
-                </ErrorMessage>
-              </div>
-              <div
-                className={styles.buttonsContainer}
-                style={{ marginTop: "15px" }}
-              >
-                <button type="submit" className={styles.loginButton}>
-                  Actualizar
-                </button>
-                <Link href="/user">
-                  <button className={styles.forgotPasswordButton}>
-                    Cancelar
+                  <button type="submit" className={styles.loginButton}>
+                    Actualizar
                   </button>
-                </Link>
-              </div>
-            </Form>
+                  <Link href="/user">
+                    <button className={styles.forgotPasswordButton}>
+                      Cancelar
+                    </button>
+                  </Link>
+                </div>
+              </Form>
+            </>
           )}
         </Formik>
       </div>
