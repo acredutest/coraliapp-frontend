@@ -45,44 +45,37 @@ const UserEdit = () => {
   const [imageUser, setImageUser] = useState(path.profileImg);
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState("");
-  let state = { image: null };
+  const [featImage, setFeatImage] = useState("");
 
   useEffect(() => {
     const getImage = async () => {
       const res = await getFetch(`/users/${user.id}/image-profile`);
-      if (res.data.image_url) {
+      if (res) {
         setImageUser(res.data.image_url);
+        dispatch(addImage(imageUser));
       }
     };
     if (user) {
       getImage();
     }
-  }, []);
+  }, [user]);
 
-  if (imageUser !== path.profileImg) {
-    console.log("hola");
-    console.log(imageUser);
-    dispatch(addImage(imageUser));
-  }
-
-  const featImage = "";
   const hiddenImageInput = React.useRef(null);
   const handleClick = (event) => {
     event.preventDefault();
     hiddenImageInput.current.click();
   };
   const handleChange = (event) => {
-    state[image] = event.target.files[0];
+    setFeatImage(event.target.files[0]);
     const image = event.target.files[0];
     const reader = new FileReader();
-    const hola = reader.readAsDataURL(image);
+    const url = reader.readAsDataURL(image);
 
     reader.onloadend = function () {
       setImagePreview(reader.result);
     };
   };
 
-  console.log(state);
   return (
     <div className={styles.container} style={{ paddingBottom: "20px" }}>
       <Head>
@@ -112,7 +105,6 @@ const UserEdit = () => {
               }
               if (featImage) {
                 const formData = new FormData();
-                console.log(featImage);
                 formData.append("image", featImage);
                 resImage = await patchImageFetch(
                   `/users/${user.id}/image-profile`,
@@ -122,22 +114,28 @@ const UserEdit = () => {
               if (res.data && !resImage.data) {
                 dispatch(updateUser(values));
                 router.push("/user");
-              } else if (resImage.data && !res.data) {
-                dispatch(addImage(resImage.data.image_url));
-                // router.push("/user");
+              } else if (
+                !resImage.data ||
+                !res.data ||
+                (!res.data && !resImage.data)
+              ) {
+                setErrorMessage("No se pudo actualizar sus datos");
               } else {
                 dispatch(updateUser(values));
                 dispatch(addImage(resImage.data.image_url));
                 router.push("/user");
               }
             } catch (err) {
-              console.error("Failed to signup ", err);
+              console.error("Failed to edit", err);
             }
           }}
         >
           {({ status }) => (
             <>
-              <p className={`${styles.errorMessage} ${styles.error}`}>
+              <p
+                className={`${styles.errorMessage} ${styles.error}`}
+                style={{ marginBottom: "10px" }}
+              >
                 {errorMessage}
               </p>
               <Form>
@@ -147,7 +145,6 @@ const UserEdit = () => {
                     alt="profile"
                     style={{
                       borderRadius: "50%",
-                      border: "1px solid black",
                     }}
                   />
                   <div
