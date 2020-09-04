@@ -40,4 +40,4 @@ export default function Home() {
     </>
   );
 }
-serviceWorker.unregister();
+//serviceWorker.unregister();
