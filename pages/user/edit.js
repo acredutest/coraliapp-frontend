@@ -30,7 +30,10 @@ const validations = yup.object().shape({
     .string()
     .email("Debe ser un email válido")
     .required("Información requerida"),
-  password: yup.string().min(3, "Contraseña debe tener más de 2 caracteres"),
+  password: yup.string().min(4, "Contraseña debe tener más de 3 caracteres"),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords don't match!"),
 });
 
 const UserEdit = () => {
@@ -94,14 +97,22 @@ const UserEdit = () => {
             linkedin: user.linkedin ? user.linkedin : "",
             email: user.email,
             password: "",
+            password_confirmation: "",
           }}
           validationSchema={validations}
           onSubmit={async (values) => {
             try {
               let res = "";
               let resImage = "";
+              let resPassword = "";
               if (values) {
                 res = await patchFetch(`/users/${user.id}`, values);
+                if (values.password && values.password_confirmation) {
+                  resPassword = await patchFetch("/auth/password", {
+                    password: values.password,
+                    password_confirmation: values.password_confirmation,
+                  });
+                }
               }
               if (featImage) {
                 const formData = new FormData();
@@ -111,13 +122,19 @@ const UserEdit = () => {
                   formData
                 );
               }
-              if (res.data && !resImage.data) {
+              if (
+                (res.data && !resImage.data) ||
+                (res.data && resPassword.data.success && !resImage.data)
+              ) {
                 dispatch(updateUser(values));
                 router.push("/user");
               } else if (
                 !resImage.data ||
                 !res.data ||
-                (!res.data && !resImage.data)
+                !resPassword.data.success ||
+                (!res.data && !resImage.data) ||
+                (!resPassword.data.success && !resImage.data) ||
+                (!res.data && !resPassword.data.success)
               ) {
                 setErrorMessage("No se pudo actualizar sus datos");
               } else {
@@ -236,6 +253,18 @@ const UserEdit = () => {
                     type="password"
                   />
                   <ErrorMessage name="password">
+                    {(msg) => <p className={styles.error}>{msg}</p>}
+                  </ErrorMessage>
+                </div>
+                <div className={styles.fullField}>
+                  <label className={styles.label}>Confirmar Contraseña</label>
+                  <Field
+                    className={styles.field}
+                    placeholder="*********"
+                    name="password_confirmation"
+                    type="password"
+                  />
+                  <ErrorMessage name="password_confirmation">
                     {(msg) => <p className={styles.error}>{msg}</p>}
                   </ErrorMessage>
                 </div>
