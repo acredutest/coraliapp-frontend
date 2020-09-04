@@ -13,7 +13,7 @@ import { logout } from "./../../slices/authSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { parse, isDate } from "date-fns";
-import CertificatePdf from "./certificatepdf";
+//import CertificatePdf from "./certificatepdf";
 import { Page, Document, pdfjs } from "react-pdf";
 
 //pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
