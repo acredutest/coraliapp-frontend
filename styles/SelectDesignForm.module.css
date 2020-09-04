@@ -1,0 +1,19 @@
+.containerCredentialCheckbox {
+  width: 100%;
+  cursor: pointer;
+}
+
+.radioCredentialCheckbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.imageCredentialCheckbox {
+  width: 100%;
+  cursor: pointer;
+}
+
+.radioCredentialCheckbox:checked + .imageCredentialCheckbox {
+  outline: 2px solid #5096FF;
+}

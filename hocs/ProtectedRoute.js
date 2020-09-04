@@ -30,12 +30,12 @@ export default function ProtectRoute(Component) {
           } else if (!router.route.startsWith(`/${data.role}`)) {
             router.push("404");
           } else {
-            setHaspermission(true);
+            setHasPermission(true);
           }
         } else if (!getCookieTokenObject) {
           router.push("/signin");
         } else {
-          setHaspermission(true);
+          setHasPermission(true);
         }
       };
 

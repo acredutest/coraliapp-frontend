@@ -21,7 +21,7 @@ export default function Certificate({
         <h1 className={styles.certificateTitle}>
           Certificado FullStack by Codeable
         </h1>
-        <p className={styles.darkgray}>{credentialInformation.body}</p>
+        <p className={styles.darkgray}>{credentialInformation}</p>
         <div className={styles.shareContainer}>
           <img src="/images/linkedin.svg" className={styles.shareIcon} />
           <div className={styles.shareInfo}>
