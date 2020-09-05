@@ -4,12 +4,13 @@ import styles from "./../../styles/Verify.module.css";
 import stylesCertificate from "./../../styles/Certificates.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { Page, Document, pdfjs } from "react-pdf";
 import { getFetch } from "../api/client";
 
 function VerifyCertificate() {
   const [certificateInfo, setCertificateInfo] = useState();
-
+  const [pageNumber, setPageNumber] = useState(1);
+  const [numPages, setNumPages] = useState(0);
   const [isError, setIsError] = useState(false);
 
   const path = {
@@ -17,6 +18,10 @@ function VerifyCertificate() {
     padLock: "/images/padLock.svg",
     certificateImg: "/images/certificado.jpg",
     frame: "/images/frame.png",
+    // pdftest: "/img/testcert.pdf",
+  };
+  const onDocumentLoadSuccess = (numPage) => {
+    setNumPages(numPage);
   };
 
   const router = useRouter();
@@ -34,7 +39,8 @@ function VerifyCertificate() {
       getCredential();
     }
   }, [router]);
-
+  console.log("certificateInfo");
+  console.log(certificateInfo);
   return (
     <div className={styles.certificadoBody}>
       <Head>
@@ -49,10 +55,18 @@ function VerifyCertificate() {
           >
             <div className={stylesCertificate.uploadCertificateImg}>
               <img className={stylesCertificate.frameImg} src={path.frame} />
-              <img
+              {/* <img
                 className={stylesCertificate.certificateImg}
                 src={path.certificateImg}
-              />
+              /> */}
+              <Document
+                className={stylesCertificate.certificateImg}
+                file={certificateInfo.file}
+                onLoadSuccess={onDocumentLoadSuccess}
+                noData={<h4>Certificate</h4>}
+              >
+                <Page pageNumber={pageNumber} width={180} />
+              </Document>
             </div>
           </section>
           <div className={`${styles.grayBorder} ${styles.displayFlex}`}>

@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { pdfjs } from "react-pdf";
+// import * as serviceWorker from "./serviceWorker";
 
 import { Footer } from "../components/common/Footer";
 
@@ -40,4 +41,4 @@ export default function Home() {
     </>
   );
 }
-//serviceWorker.unregister();
+// serviceWorker.unregister();
