@@ -284,8 +284,8 @@ const UserEdit = () => {
                     style={{ marginTop: "15px" }}
                   >
                     <Button type="submit" size="sm" variantColor="#4bc0d0" style={{ backgroundColor: "#4bc0d0" }}>
-                        Actualizar
-                    </Button>
+                      Actualizar
+                  </Button>
                     <Link href="/user">
                       <Button size="sm">
                         Cancelar
