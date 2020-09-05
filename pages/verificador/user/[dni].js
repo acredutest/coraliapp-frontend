@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "../../../styles/Profile.module.css";
 import stylesNotFound from "./../../../styles/Verify.module.css";
 import stylesVerify from "../../../styles/Verify.module.css";
-import Certificate from "./../../user/certificate";
+import Certificate from "./../../user/_components/certificate";
 
 import { useRouter } from "next/router";
 

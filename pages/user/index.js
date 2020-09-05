@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
-import Certificate from "./certificate";
+import Certificate from "./_components/certificate";
 
 import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";

@@ -50,7 +50,6 @@ export default function DNIForm({ state = null, setState, dispatch, dni }) {
         }
       }
       setEdit(true);
-      setState("success");
     }, 1000);
   };
 
