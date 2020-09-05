@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import styles from "../../styles/UploadCertificate.module.css";
+import styles from "../../../styles/UploadCertificate.module.css";
 // import Certificate from "./certificate";
-
-import ProtectedRoute from "./../../hocs/ProtectedRoute";
+import ProtectedRoute from "./../../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
-import { logout } from "./../../slices/authSlice";
+import { logout } from "./../../../slices/authSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { parse, isDate } from "date-fns";
 //import CertificatePdf from "./certificatepdf";
 import { Page, Document, pdfjs } from "react-pdf";
+import { postPDFFetch } from "../../api/client";
 
-//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
@@ -27,7 +27,10 @@ function parseDateString(value, originalValue) {
 }
 
 const validations = yup.object().shape({
-  idcertificate: yup.number().required("ID de la credencial es requerida"),
+  idcertificate: yup
+    .string()
+    .min(7, "ID de la credencial debe tener más de 8 digitos")
+    .required("ID de la credencial es requerida"),
   namecourse: yup.string().required("Nombre del curso es requerido"),
   nameinstitution: yup.string().required("Nombre de Institución es requerido"),
   description: yup.string().required("Ingresa una descripción"),
@@ -46,6 +49,7 @@ const UploadCertificate = () => {
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const router = useRouter();
+
   const onFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -57,7 +61,6 @@ const UploadCertificate = () => {
     <div className={styles.container}>
       <Formik
         initialValues={{
-          file: "",
           idcertificate: "",
           namecourse: "",
           nameinstitution: "",
@@ -66,9 +69,27 @@ const UploadCertificate = () => {
           expirydate: "",
         }}
         validationSchema={validations}
-        onSubmit={(value) => {
-          console.log(value);
-          router.push("/webcertificate");
+        onSubmit={async (values) => {
+          try {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("code", values.idcertificate);
+            formData.append("name_course", values.namecourse);
+            formData.append("name_institution", values.nameinstitution);
+            formData.append("description", values.description);
+            formData.append("issue_at", values.issuedate);
+            formData.append("expiration_at", values.expirydate);
+
+            const res = await postPDFFetch("/credentials", formData);
+
+            if (res.data) {
+              router.push("/webcertificate");
+            } else {
+              setErrorMessage("No se pudo crear credencial");
+            }
+          } catch (err) {
+            console.error("Failed to create", err);
+          }
         }}
       >
         {(status) => (
@@ -96,7 +117,7 @@ const UploadCertificate = () => {
               <div className={styles.fullField}>
                 <Field
                   name="idcertificate"
-                  type="number"
+                  type="text"
                   placeholder="ID del certificado"
                   className={styles.field}
                 />
@@ -192,4 +213,4 @@ const UploadCertificate = () => {
   );
 };
 
-export default UploadCertificate;
+export default ProtectedRoute(UploadCertificate);
