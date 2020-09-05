@@ -97,36 +97,8 @@
   font-size: 15px;
 }
 
-.wave {
-  position: fixed;
-  bottom: -30px;
-  height: 70px;
-  width: 100%;
-  background: #2E384D;
-  transform: rotate(180deg);
-  opacity: 0.2;
-}
-
-.wave:before {
-  content: "";
-  display: block;
-  position: absolute;
-  border-radius: 100% 50%;
-  width: 68%;
-  height: 80px;
-  background-color: white;
-  right: -5px;
-  top: 40px;
-}
-
-.wave:after {
-  content: "";
-  display: block;
-  position: absolute;
-  border-radius: 100% 50%;
-  width: 80%;
-  height: 70px;
-  background-color: #2E384D;
-  left: -36.7%;
-  top: 25px;
+/*profile icon*/
+.logoContainer {
+  width: 100px;
+  margin: auto;
 }
