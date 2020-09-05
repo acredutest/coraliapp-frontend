@@ -3,10 +3,10 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "./footer";
 import { pdfjs } from "react-pdf";
-import * as serviceWorker from "./serviceWorker";
+// import * as serviceWorker from "./serviceWorker";
 
 export default function Home() {
-  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+  pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.1.266/pdf.worker.js`;
   const path = {
     logo: "/img/Logo-home.png",
     logofooter: "/img/Logo_coralify_footer.png",
@@ -41,4 +41,4 @@ export default function Home() {
     </div>
   );
 }
-serviceWorker.unregister();
+// serviceWorker.unregister();
