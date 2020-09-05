@@ -1,34 +1,43 @@
 import { API_URL } from "./../../constants";
 import { getCookieTokenObject } from "../../helpers/cookies.helpers";
 
-const identityCookies = getCookieTokenObject();
-const identity = identityCookies ? JSON.parse(identityCookies) : null;
-const headers = identity
-  ? {
+const getHeaders = () => {
+  const identityCookies = getCookieTokenObject();
+  const identity = identityCookies ? JSON.parse(identityCookies) : null;
+  return identity
+    ? {
       "content-type": "application/json",
       "access-token": identity["access-token"],
       client: identity.client,
       uid: identity.uid,
     }
-  : {
+    : {
       "content-type": "application/json",
     };
+}
 
-const headerPDF = identity
-  ? {
+
+
+const getHeaderPDF = () => {
+  const identityCookies = getCookieTokenObject();
+  const identity = identityCookies ? JSON.parse(identityCookies) : null;
+
+  return identity
+    ? {
       "access-token": identity["access-token"],
       client: identity.client,
       uid: identity.uid,
     }
-  : {
+    : {
       "content-type": "application/json",
     };
+}
 
 const getFetch = async (endpoint) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: "GET",
-      headers: headers,
+      headers: getHeaders(),
     });
     const json = await response.json();
 
@@ -51,7 +60,7 @@ const postFetch = async (endpoint, body) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: "POST",
-      headers,
+      headers: getHeaders(),
       body: JSON.stringify(body),
     });
     const data = await response.json();
@@ -70,7 +79,7 @@ const postPDFFetch = async (endpoint, body) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: "POST",
-      headers: headerPDF,
+      headers: getHeaderPDF(),
       body: body,
     });
     const data = await response.json();
@@ -89,7 +98,7 @@ const postFetchWithHeaders = async (endpoint, body) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: "POST",
-      headers,
+      headers: getHeaders(),
       body: JSON.stringify(body),
     });
     const json = await response.json();
@@ -115,7 +124,7 @@ const patchFetch = async (endpoint, body) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
       method: "PATCH",
-      headers,
+      headers: getHeaders(),
       body: JSON.stringify(body),
     });
     const data = await response.json();
@@ -145,6 +154,26 @@ const patchImageFetch = async (endpoint, body) => {
     return Promise.reject({ message: "Network error" });
   }
 };
+
+const deleteFetch = async (endpoint) => {
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+    const json = await response.json();
+
+    if (response.ok) {
+      return {
+        data: json.data
+      };
+    }
+    return Promise.reject(json.errors.pop());
+  } catch (error) {
+    return Promise.reject("Network error");
+  }
+};
+
 export {
   getFetch,
   postFetch,
@@ -152,4 +181,5 @@ export {
   postFetchWithHeaders,
   patchFetch,
   patchImageFetch,
+  deleteFetch,
 };

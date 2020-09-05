@@ -5,8 +5,9 @@ import {
   getFetch,
   postFetchWithHeaders,
   patchFetch,
+  deleteFetch,
 } from "./../pages/api/client";
-import { setCookieTokenObject } from "../helpers/cookies.helpers";
+import { setCookieTokenObject, removeCookieTokenObject } from "../helpers/cookies.helpers";
 
 export const signIn = createAsyncThunk("auth/sign_in", async (body) => {
   const response = await postFetchWithHeaders("/auth/sign_in", body);
@@ -23,15 +24,17 @@ export const getUser = createAsyncThunk("auth/get_user", async () => {
   return response;
 });
 
+export const signOut = createAsyncThunk("auth/sign_out", async () => {
+  const response = await deleteFetch("/auth/sign_out");
+  return response;
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
   },
   reducers: {
-    logout: (state) => {
-      state.token = null;
-    },
     updateUser: (state, action) => {
       state.user = action.payload;
     },
@@ -59,6 +62,13 @@ export const authSlice = createSlice({
       state.user.image = null;
     },
     [getUser.rejected]: (state, action) => {
+      console.error(action.error.message);
+    },
+    [signOut.fulfilled]: (state, action) => {
+      state.user = {};
+      removeCookieTokenObject();
+    },
+    [signOut.rejected]: (state, action) => {
       console.error(action.error.message);
     },
   },

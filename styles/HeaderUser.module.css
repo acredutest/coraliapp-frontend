@@ -1,0 +1,62 @@
+.logo {
+  max-width: 80px;
+  filter: invert(100%);
+}
+
+.menuButtonHeader {
+  padding: 0px;
+  background-color: transparent !important;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.menuIconHeader {
+  padding: 0px;
+  background-color: transparent !important;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.menuButtonHeader p {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.menuButtonHeader svg {
+  margin: 0px;
+}
+
+.menuListHeader {
+  margin-right: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.menuItemHeader {
+  background-color: transparent !important;
+  border: none;
+}
+
+.menuItemHeader:last-child a {
+  text-decoration: none;
+  color: #F8746B !important;
+}
+
+.menuItemHeader:not(:last-child) a {
+  text-decoration: none;
+  color: #4299E1 !important;
+}
+
+@media screen and (min-width: 52em) {
+  .menuIconMenu {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 51em) {
+  .menuIconChevron {
+    display: none !important;
+  }
+}

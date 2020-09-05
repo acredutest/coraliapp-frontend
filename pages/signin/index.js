@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
-import { signIn } from "./../../slices/authSlice";
+import { signIn, addImage } from "./../../slices/authSlice";
 import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 
 import styles from "./../../styles/SignIn.module.css";
-import Link from "next/link";
+import { Flex, Image, Divider, Button, Spinner } from "@chakra-ui/core";
+import { getFetch } from "../api/client";
 
 const validations = yup.object().shape({
   email: yup
@@ -28,92 +30,100 @@ function SignIn(props) {
   const dispatch = useDispatch();
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Ingresar</h1>
-      {/* -{user ? user.email : "..."}- -
-      {`${loading}`}- */}
-      <Formik
-        initialValues={{
-          email: "nicolle@gmail.com",
-          password: "nicolle1234",
-        }}
-        validationSchema={validations}
-        onSubmit={async (values, { setStatus }) => {
-          try {
-            dispatch(loadingStarted());
-            const { error, payload } = await dispatch(signIn(values));
-            if (error) {
-              if (error.message.startsWith("Invalid")) {
-                setErrorMessage("Email o password son incorrectos");
-              } else {
-                setErrorMessage(error.message);
+    <>
+      <Flex flexDirection="column" justifyContent="center" alignItems="center" className={styles.container}>
+        <Flex flexDirection="column" justifyContent="center" className={styles.cardForm}>
+          <Image src="/images/logo.png" className={styles.logo} />
+          <Divider />
+          <Formik
+            initialValues={{
+              email: "nicolle@gmail.com",
+              password: "nicolle1234",
+            }}
+            validationSchema={validations}
+            onSubmit={async (values, { setStatus }) => {
+              try {
+                dispatch(loadingStarted());
+                const { error, payload } = await dispatch(signIn(values));
+                if (error) {
+                  if (error.message.startsWith("Invalid")) {
+                    setErrorMessage("Email o password son incorrectos");
+                  } else {
+                    setErrorMessage(error.message);
+                  }
+                } else if (payload.data) {
+                  console.log(payload.data)
+                  const resImage = await getFetch(`/users/${payload.data.id}/image-profile`);
+                  if (resImage.data) {
+                    dispatch(addImage(resImage.data.image_url));
+                  }
+                  router.push(payload.data.role);
+                }
+                dispatch(loadingStopped());
+              } catch (err) {
+                console.error("Failed to login: ", err);
               }
-            } else if (payload.data) {
-              router.push(payload.data.role);
-            }
-            dispatch(loadingStopped());
-          } catch (err) {
-            console.error("Failed to login: ", err);
-          }
-        }}
-      >
-        {({ status }) => (
-          <>
-            <p className={`${styles.errorMessage} ${styles.error}`}>
-              {errorMessage}
-            </p>
-            <Form>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Email</label>
-                <Field
-                  name="email"
-                  type="email"
-                  placeholder="tu@correo.com"
-                  className={styles.field}
-                />
-                <ErrorMessage name="email">
-                  {(msg) => (
-                    <div>
-                      <p className={styles.error}>{msg}</p>
-                    </div>
-                  )}
-                </ErrorMessage>
-              </div>
-              <div className={styles.fullField}>
-                <label className={styles.label}>Contraseña</label>
-                <Field
-                  name="password"
-                  type="password"
-                  placeholder="*********"
-                  className={styles.field}
-                />
-                <ErrorMessage name="password">
-                  {(msg) => (
-                    <div>
-                      <p className={styles.error}>{msg}</p>
-                    </div>
-                  )}
-                </ErrorMessage>
-              </div>
-              <div className={styles.buttonsContainer}>
-                <button type="submit" className={styles.loginButton}>
-                  Ingresar
-                </button>
-                <button className={styles.forgotPasswordButton}>
-                  Olvidé mi contraseña
-                </button>
-              </div>
-            </Form>
-          </>
-        )}
-      </Formik>
-      <div className={styles.signUpLink}>
-        <p className={styles.newAccountText}>¿Necesitas una cuenta?</p>
-        <Link href="/signup">
-          <span className={styles.signUp}>Registrate</span>
-        </Link>
-      </div>
-    </div>
+            }}
+          >
+            {({ status }) => (
+              <>
+                <p className={`${styles.errorMessage} ${styles.error}`}>
+                  {errorMessage}
+                </p>
+                <Form>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Email</label>
+                    <Field
+                      name="email"
+                      type="email"
+                      placeholder="tu@correo.com"
+                      className={styles.field}
+                    />
+                    <ErrorMessage name="email">
+                      {(msg) => (
+                        <div>
+                          <p className={styles.error}>{msg}</p>
+                        </div>
+                      )}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Contraseña</label>
+                    <Field
+                      name="password"
+                      type="password"
+                      placeholder="*********"
+                      className={styles.field}
+                    />
+                    <ErrorMessage name="password">
+                      {(msg) => (
+                        <div>
+                          <p className={styles.error}>{msg}</p>
+                        </div>
+                      )}
+                    </ErrorMessage>
+                  </div>
+                  <Flex flexDirection="column" className={styles.buttonsContainer}>
+                    <Button type="submit" variantColor="#4bc0d0" size="sm" className={styles.loginButton}>
+                      {loading ? <Spinner color="white" size="sm" /> : "Ingresar"}
+                    </Button>
+                    <Button variantColor="#4bc0d0" variant="outline" size="sm" className={styles.forgotPasswordButton}>
+                      Olvidé mi contraseña
+                    </Button>
+                  </Flex>
+                </Form>
+              </>
+            )}
+          </Formik>
+          <div className={styles.signUpLink}>
+            <p className={styles.newAccountText}>¿Necesitas una cuenta?</p>
+            <Link href="/signup">
+              <span className={styles.signUp}>Registrate</span>
+            </Link>
+          </div>
+        </Flex>
+      </Flex>
+    </>
   );
 }
 
