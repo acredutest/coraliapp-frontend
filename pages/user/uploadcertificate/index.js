@@ -12,7 +12,7 @@ import { logout } from "./../../../slices/authSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { parse, isDate } from "date-fns";
-//import CertificatePdf from "./certificatepdf";
+// import CertificatePdf from "./certificatepdf";
 import { Page, Document, pdfjs } from "react-pdf";
 import { postPDFFetch } from "../../api/client";
 
@@ -77,6 +77,7 @@ const UploadCertificate = () => {
           try {
             const formData = new FormData();
             formData.append("file", file);
+            console.log(file);
             formData.append("code", values.idcertificate);
             formData.append("name_course", values.namecourse);
             formData.append("name_institution", values.nameinstitution);
