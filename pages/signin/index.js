@@ -7,11 +7,12 @@ import { useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 
-import { signIn } from "./../../slices/authSlice";
+import { signIn, addImage } from "./../../slices/authSlice";
 import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 
 import styles from "./../../styles/SignIn.module.css";
 import { Flex, Image, Divider, Button, Spinner } from "@chakra-ui/core";
+import { getFetch } from "../api/client";
 
 const validations = yup.object().shape({
   email: yup
@@ -51,6 +52,11 @@ function SignIn(props) {
                     setErrorMessage(error.message);
                   }
                 } else if (payload.data) {
+                  console.log(payload.data)
+                  const resImage = await getFetch(`/users/${payload.data.id}/image-profile`);
+                  if (resImage.data) {
+                    dispatch(addImage(resImage.data.image_url));
+                  }
                   router.push(payload.data.role);
                 }
                 dispatch(loadingStopped());

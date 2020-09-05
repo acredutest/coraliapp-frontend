@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logout } from "./../../slices/authSlice";
 import { HeaderUser } from "../../components/common/HeaderUser";
+import { Avatar, Flex } from "@chakra-ui/core";
 
 const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
@@ -33,28 +34,13 @@ const Profile = () => {
       <HeaderUser />
       <div className={styles.container}>
         <div className={styles.profileContainer}>
-          <div className={styles.informationContainer}>
-            <div className={styles.datosContainer}>
-              <div className={styles.logoContainer}>
-                <img src={path.profileImg} alt="profile" />
-              </div>
+          <Flex flexDirection="column" alignItems="center" justifyContent="center" className={styles.informationContainer}>
+              <Avatar name={user.name} src={user.image} size="lg" />
               <h1 className={styles.name}>
                 {user.name} {user.last_name}
               </h1>
-              <div className={styles.editButtonContainer}>
-                <button className={styles.editButton}>Editar Perfil</button>
-              </div>
-              <div className={styles.logoutButtonContainer}>
-                <button
-                  className={styles.logout}
-                  onClick={() => dispatch(logout())}
-                >
-                  Cerrar sesión
-              </button>
-              </div>
-            </div>
-          </div>
-          <div className={styles.certificateButtonsContainer}>
+          </Flex>
+          <Flex className={styles.certificateButtonsContainer}>
             <button
               className={`${
                 currentPage === "certificate"
@@ -92,7 +78,7 @@ const Profile = () => {
               <span className={styles.quantityCertificates}>0</span>
             Para revalidar
           </button>
-          </div>
+          </Flex>
           <div className={styles.certificateContainer}>
             {currentPage === "certificate" ? (
               <div className={styles.itemsContainer}>
