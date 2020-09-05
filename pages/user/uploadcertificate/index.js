@@ -59,6 +59,10 @@ const UploadCertificate = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Coraliapp | Upload</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Formik
         initialValues={{
           idcertificate: "",
@@ -201,10 +205,19 @@ const UploadCertificate = () => {
                   )}
                 </ErrorMessage>
               </div>
-              <button className={styles.forgotPasswordButton}>Cancelar</button>
-              <button type="submit" className={styles.loginButton}>
-                Agregar Certificado
-              </button>
+              <div
+                className={styles.buttonsContainer}
+                style={{ marginTop: "15px" }}
+              >
+                <Link href="/user">
+                  <button className={styles.forgotPasswordButton}>
+                    Cancelar
+                  </button>
+                </Link>
+                <button type="submit" className={styles.loginButton}>
+                  Agregar Certificado
+                </button>
+              </div>
             </Form>
           </>
         )}
