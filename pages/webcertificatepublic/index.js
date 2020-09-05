@@ -1,6 +1,6 @@
 import styles from "../../styles/Webcertificate.module.css";
 import { SiLinkedin } from "react-icons/si";
-import { Footer } from "../../components/common/Footer";
+import Link from "next/link";
 
 export default function WebCertificate() {
   const path = {
@@ -22,33 +22,14 @@ export default function WebCertificate() {
         <img src={path.certificate} className={styles.certificate} />
       </div>
       <div className={styles.content}>
-        <div className={styles.privatebuttons}>
+        <div className={styles.publicbutton}>
           <h2 className={styles.idcertificate}>ID certificado: 1534275</h2>
-          <div className={styles.privatebuttonslinkedin}>
-            <a
-              href="https://www.linkedin.com/shareArticle?mini=true&url=https://coralify.com/certificado/fernando-daniel-pareja-cardenas//&title=Coralify&summary=WIAD2020_LIMA"
-              className={styles.publicbuttonblue}
-            >
-              Compartir en <SiLinkedin className={styles.SiLinkedin} />
-            </a>
-            <a href="" className={styles.publicbuttonwhite}>
-              Agregar a <SiLinkedin className={styles.SiLinkedin} />
-            </a>
-          </div>
-          <div className={styles.privatebuttoncircle}>
-            <a href="https://docs.google.com/viewer?url=https://coralify.com/wp-content/themes/ThemeCoralifyv1/assets/pdf/1534275.pdf">
-              <img src={path.download} className={styles.bcircle} />
-            </a>
-
-            <a href="">
-              <img src={path.share} className={styles.bcircle} />
-            </a>
-          </div>
+          <Link href="/verificador">
+            <button className={styles.verifybutton}>
+              Verificar Certificado
+            </button>
+          </Link>
         </div>
-        {/* <div className={styles.publicbutton}>
-          <h2 className={styles.idcertificate}>ID certificado: 1534275</h2>
-          <button>Verificar Certificado</button>
-        </div> */}
         <div className={styles.institutiondata}>
           <h1 className={styles.title}>Fullstack web developer bootcamp</h1>
           <div className={styles.rrss}>

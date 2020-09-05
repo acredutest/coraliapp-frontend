@@ -77,6 +77,7 @@ const UploadCertificate = () => {
           try {
             const formData = new FormData();
             formData.append("file", file);
+            console.log(file);
             formData.append("code", values.idcertificate);
             formData.append("name_course", values.namecourse);
             formData.append("name_institution", values.nameinstitution);
