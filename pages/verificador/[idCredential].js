@@ -6,13 +6,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { getFetch } from "../api/client";
-import { parse, isDate } from "date-fns";
-// import { es } from "date-fns/locale";
+import { Page, Document, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function VerifyCertificate() {
   const [certificateInfo, setCertificateInfo] = useState();
 
   const [isError, setIsError] = useState(false);
+  const [file, setFile] = useState();
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const path = {
     shieldLightBlue: "/images/shieldLightBlue.svg",
@@ -22,7 +26,6 @@ function VerifyCertificate() {
   };
 
   const router = useRouter();
-  let issue_date = null;
 
   useEffect(() => {
     const getCredential = async () => {
@@ -31,12 +34,17 @@ function VerifyCertificate() {
       );
 
       if (res.data.errors) setIsError(true);
-      else setCertificateInfo(res.data);
+      else {
+        setCertificateInfo(res.data.credential);
+        setFile(res.data.pdf);
+      }
     };
     if (router.query.idCredential) {
       getCredential();
     }
   }, [router]);
+
+  console.log(file);
 
   return (
     <div className={styles.certificadoBody}>
@@ -51,11 +59,9 @@ function VerifyCertificate() {
             style={{ width: "90%" }}
           >
             <div className={stylesCertificate.uploadCertificateImg}>
-              <img className={stylesCertificate.frameImg} src={path.frame} />
-              <img
-                className={stylesCertificate.certificateImg}
-                src={path.certificateImg}
-              />
+              <Document file={file}>
+                <Page pageNumber={1} width={300} />
+              </Document>
             </div>
           </section>
           <div className={`${styles.grayBorder} ${styles.displayFlex}`}>
