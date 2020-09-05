@@ -36,7 +36,8 @@ const Profile = () => {
               <img src={path.profileImg} alt="profile" />
             </div>
             <h1 className={styles.name}>
-              {user.name} {user.last_name}
+              {user.name[0].toUpperCase() + user.name.slice(1)}{" "}
+              {user.last_name[0].toUpperCase() + user.last_name.slice(1)}
             </h1>
             <div className={styles.editButtonContainer}>
               <button className={styles.editButton}>Editar Perfil</button>
