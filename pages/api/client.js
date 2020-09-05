@@ -14,6 +14,16 @@ const headers = identity
       "content-type": "application/json",
     };
 
+const headerPDF = identity
+  ? {
+      "access-token": identity["access-token"],
+      client: identity.client,
+      uid: identity.uid,
+    }
+  : {
+      "content-type": "application/json",
+    };
+
 const getFetch = async (endpoint) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
@@ -56,6 +66,25 @@ const postFetch = async (endpoint, body) => {
   }
 };
 
+const postPDFFetch = async (endpoint, body) => {
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: "POST",
+      headers: headerPDF,
+      body: body,
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      return { data };
+    } else {
+      return Promise.reject(data.errors.message);
+    }
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
 const postFetchWithHeaders = async (endpoint, body) => {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
@@ -82,14 +111,9 @@ const postFetchWithHeaders = async (endpoint, body) => {
 };
 
 // To edit!!!
-const patchFetch = async (endpoint, token, body) => {
-  let headers = {
-    "content-type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-
+const patchFetch = async (endpoint, body) => {
   try {
-    const response = await fetch(`${APIURL}${endpoint}`, {
+    const response = await fetch(`${API_URL}${endpoint}`, {
       method: "PATCH",
       headers,
       body: JSON.stringify(body),
@@ -105,4 +129,27 @@ const patchFetch = async (endpoint, token, body) => {
   }
 };
 
-export { getFetch, postFetch, postFetchWithHeaders, patchFetch };
+const patchImageFetch = async (endpoint, body) => {
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: "PATCH",
+      body: body,
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return { data };
+    } else {
+      return Promise.reject(data.errors.message);
+    }
+  } catch (error) {
+    return Promise.reject({ message: "Network error" });
+  }
+};
+export {
+  getFetch,
+  postFetch,
+  postPDFFetch,
+  postFetchWithHeaders,
+  patchFetch,
+  patchImageFetch,
+};

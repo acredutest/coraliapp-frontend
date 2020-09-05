@@ -1,6 +1,7 @@
 .container {
   width: 300px;
   margin: 0 auto;
+  padding: 15px 0;
 }
 .title {
   color: #4a5568;
@@ -50,7 +51,6 @@
   font-size: 16px;
   color: #ffffff;
   padding: 8px 16px;
-  margin-top: 30px;
 }
 .forgotPasswordButton {
   color: #4bc0d0;
@@ -85,4 +85,10 @@
 .errorMessage {
   text-align: center;
   font-size: 15px;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
 }

@@ -4,6 +4,7 @@ import {
   postFetch,
   getFetch,
   postFetchWithHeaders,
+  patchFetch,
 } from "./../pages/api/client";
 import { setCookieTokenObject } from "../helpers/cookies.helpers";
 
@@ -31,6 +32,12 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
     },
+    updateUser: (state, action) => {
+      state.user = action.payload;
+    },
+    addImage: (state, action) => {
+      state.user.image = action.payload;
+    },
   },
   extraReducers: {
     [signIn.fulfilled]: (state, action) => {
@@ -49,6 +56,7 @@ export const authSlice = createSlice({
     },
     [getUser.fulfilled]: (state, action) => {
       state.user = action.payload.data;
+      state.user.image = null;
     },
     [getUser.rejected]: (state, action) => {
       console.error(action.error.message);
@@ -56,6 +64,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, updateUser, addImage } = authSlice.actions;
 
 export default authSlice.reducer;

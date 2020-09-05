@@ -1,22 +1,23 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import Footer from "./footer";
 import { pdfjs } from "react-pdf";
 // import * as serviceWorker from "./serviceWorker";
+
+import { Footer } from "../components/common/Footer";
 
 export default function Home() {
   pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.1.266/pdf.worker.js`;
   const path = {
-    logo: "/img/Logo-home.png",
-    logofooter: "/img/Logo_coralify_footer.png",
+    logo: "/images/logo.png",
+    logofooter: "/images/logo-small.png",
     facebook: "/img/icon_facebook1.png",
     youtube: "/img/icon_youtube1.png",
     linkedin: "/img/icon_linkedin1.png",
     background: "/img/landing-users.png",
   };
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Coraliapp | Home</title>
       </Head>
@@ -35,10 +36,9 @@ export default function Home() {
             </div>
           </Link>
         </div>
-
-        <Footer />
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 // serviceWorker.unregister();

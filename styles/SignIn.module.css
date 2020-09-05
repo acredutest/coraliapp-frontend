@@ -84,3 +84,9 @@
   text-align: center;
   font-size: 15px;
 }
+
+/*profile icon*/
+.logoContainer {
+  width: 100px;
+  margin: auto;
+}
