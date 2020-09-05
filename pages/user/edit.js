@@ -9,7 +9,7 @@ import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { updateUser, addImage } from "../../slices/authSlice";
 import { useRouter } from "next/router";
 import { patchFetch, getFetch, patchImageFetch } from "../api/client";
-import { Flex } from "@chakra-ui/core";
+import { Flex, Button } from "@chakra-ui/core";
 import { HeaderUser } from "../../components/common/HeaderUser";
 
 const validations = yup.object().shape({
@@ -86,15 +86,16 @@ const UserEdit = () => {
 
   return (
     <>
-      <HeaderUser/>
+      <HeaderUser />
       <Head>
         <title>Coraliapp | Edit</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Flex flexDirection="column" justifyContent="center" alignItems="center" className={styles.container}>
-        
-      <br/>
-      <br/><Flex flexDirection="column" justifyContent="center" className={styles.cardForm}>
+
+        <br />
+        <br />
+        <Flex flexDirection="column" justifyContent="center" className={styles.cardForm}>
           <h1 className={styles.title} style={{ padding: "20px 0 10px" }}>
             Editar Perfil
         </h1>
@@ -171,6 +172,7 @@ const UserEdit = () => {
                       alt="profile"
                       style={{
                         borderRadius: "50%",
+                        width: 100
                       }}
                     />
                     <div
@@ -281,13 +283,13 @@ const UserEdit = () => {
                     className={styles.buttonsContainer}
                     style={{ marginTop: "15px" }}
                   >
-                    <button type="submit" className={styles.loginButton}>
-                      Actualizar
-                  </button>
+                    <Button type="submit" size="sm" variantColor="#4bc0d0" style={{ backgroundColor: "#4bc0d0" }}>
+                        Actualizar
+                    </Button>
                     <Link href="/user">
-                      <button className={styles.forgotPasswordButton}>
+                      <Button size="sm">
                         Cancelar
-                    </button>
+                    </Button>
                     </Link>
                   </div>
                 </Form>
