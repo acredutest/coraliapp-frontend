@@ -9,6 +9,8 @@ import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { updateUser, addImage } from "../../slices/authSlice";
 import { useRouter } from "next/router";
 import { patchFetch, getFetch, patchImageFetch } from "../api/client";
+import { Flex } from "@chakra-ui/core";
+import { HeaderUser } from "../../components/common/HeaderUser";
 
 const validations = yup.object().shape({
   name: yup
@@ -45,7 +47,7 @@ const UserEdit = () => {
 
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
-  const [imageUser, setImageUser] = useState(path.profileImg);
+  const [imageUser, setImageUser] = useState(user.image ? user.image : path.profileImg);
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState("");
   const [featImage, setFeatImage] = useState("");
@@ -54,8 +56,11 @@ const UserEdit = () => {
     const getImage = async () => {
       const res = await getFetch(`/users/${user.id}/image-profile`);
       if (res) {
-        setImageUser(res.data.image_url);
-        dispatch(addImage(imageUser));
+        console.log(res.data.image_url)
+        if (res.data.image_url) {
+          setImageUser(res.data.image_url);
+          dispatch(addImage(imageUser));
+        }
       }
     };
     if (user) {
@@ -80,213 +85,218 @@ const UserEdit = () => {
   };
 
   return (
-    <div className={styles.container} style={{ paddingBottom: "20px" }}>
+    <>
+      <HeaderUser/>
       <Head>
         <title>Coraliapp | Edit</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div>
-        <h1 className={styles.title} style={{ padding: "20px 0 10px" }}>
-          Editar Perfil
+      <Flex flexDirection="column" justifyContent="center" alignItems="center" className={styles.container}>
+        
+      <br/>
+      <br/><Flex flexDirection="column" justifyContent="center" className={styles.cardForm}>
+          <h1 className={styles.title} style={{ padding: "20px 0 10px" }}>
+            Editar Perfil
         </h1>
-        <Formik
-          initialValues={{
-            name: user.name,
-            last_name: user.last_name,
-            dni: user.dni ? user.dni : "",
-            linkedin: user.linkedin ? user.linkedin : "",
-            email: user.email,
-            password: "",
-            password_confirmation: "",
-          }}
-          validationSchema={validations}
-          onSubmit={async (values) => {
-            try {
-              let res = "";
-              let resImage = "";
-              let resPassword = "";
-              if (values) {
-                res = await patchFetch(`/users/${user.id}`, values);
-                if (values.password && values.password_confirmation) {
-                  resPassword = await patchFetch("/auth/password", {
-                    password: values.password,
-                    password_confirmation: values.password_confirmation,
-                  });
+          <Formik
+            initialValues={{
+              name: user.name,
+              last_name: user.last_name,
+              dni: user.dni ? user.dni : "",
+              linkedin: user.linkedin ? user.linkedin : "",
+              email: user.email,
+              password: "",
+              password_confirmation: "",
+            }}
+            validationSchema={validations}
+            onSubmit={async (values) => {
+              try {
+                let res = "";
+                let resImage = "";
+                let resPassword = "";
+                if (values) {
+                  res = await patchFetch(`/users/${user.id}`, values);
+                  if (values.password && values.password_confirmation) {
+                    resPassword = await patchFetch("/auth/password", {
+                      password: values.password,
+                      password_confirmation: values.password_confirmation,
+                    });
+                  }
                 }
+                if (featImage) {
+                  const formData = new FormData();
+                  formData.append("image", featImage);
+                  resImage = await patchImageFetch(
+                    `/users/${user.id}/image-profile`,
+                    formData
+                  );
+                }
+                if (
+                  (res.data && !resImage.data) ||
+                  (res.data && resPassword.data.success && !resImage.data)
+                ) {
+                  dispatch(updateUser(values));
+                  router.push("/user");
+                } else if (
+                  !resImage.data ||
+                  !res.data ||
+                  !resPassword.data.success ||
+                  (!res.data && !resImage.data) ||
+                  (!resPassword.data.success && !resImage.data) ||
+                  (!res.data && !resPassword.data.success)
+                ) {
+                  setErrorMessage("No se pudo actualizar sus datos");
+                } else {
+                  dispatch(updateUser(values));
+                  dispatch(addImage(resImage.data.image_url));
+                  router.push("/user");
+                }
+              } catch (err) {
+                console.error("Failed to edit", err);
               }
-              if (featImage) {
-                const formData = new FormData();
-                formData.append("image", featImage);
-                resImage = await patchImageFetch(
-                  `/users/${user.id}/image-profile`,
-                  formData
-                );
-              }
-              if (
-                (res.data && !resImage.data) ||
-                (res.data && resPassword.data.success && !resImage.data)
-              ) {
-                dispatch(updateUser(values));
-                router.push("/user");
-              } else if (
-                !resImage.data ||
-                !res.data ||
-                !resPassword.data.success ||
-                (!res.data && !resImage.data) ||
-                (!resPassword.data.success && !resImage.data) ||
-                (!res.data && !resPassword.data.success)
-              ) {
-                setErrorMessage("No se pudo actualizar sus datos");
-              } else {
-                dispatch(updateUser(values));
-                dispatch(addImage(resImage.data.image_url));
-                router.push("/user");
-              }
-            } catch (err) {
-              console.error("Failed to edit", err);
-            }
-          }}
-        >
-          {({ status }) => (
-            <>
-              <p
-                className={`${styles.errorMessage} ${styles.error}`}
-                style={{ marginBottom: "10px" }}
-              >
-                {errorMessage}
-              </p>
-              <Form>
-                <div className={styles.logoContainer} style={{ width: "80px" }}>
-                  <img
-                    src={imagePreview ? imagePreview : imageUser}
-                    alt="profile"
-                    style={{
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "relative",
-                      rigth: 0,
-                      left: "54px",
-                      bottom: "18px",
-                    }}
-                  >
-                    <button onClick={handleClick}>
-                      <img src={path.addImg} />
-                    </button>
-                    <input
-                      type="file"
-                      id="input"
-                      onChange={handleChange}
-                      style={{ display: "none" }}
-                      ref={hiddenImageInput}
-                    />
-                  </div>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Nombre</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="Nombre"
-                    name="name"
-                    type="text"
-                  />
-                  <ErrorMessage name="name">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Apellido</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="Apellido"
-                    name="last_name"
-                    type="text"
-                  />
-                  <ErrorMessage name="last_name">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Documento de Identidad</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="12345678"
-                    name="dni"
-                    type="text"
-                  />
-                  <ErrorMessage name="dni">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Cuenta Linkedin</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="https://linkedin.com/tucuenta"
-                    name="linkedin"
-                    type="text"
-                  />
-                  <ErrorMessage name="linkedin">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Email</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="Email"
-                    name="email"
-                    type="text"
-                  />
-                  <ErrorMessage name="email">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Contraseña</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="*********"
-                    name="password"
-                    type="password"
-                  />
-                  <ErrorMessage name="password">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div className={styles.fullField}>
-                  <label className={styles.label}>Confirmar Contraseña</label>
-                  <Field
-                    className={styles.field}
-                    placeholder="*********"
-                    name="password_confirmation"
-                    type="password"
-                  />
-                  <ErrorMessage name="password_confirmation">
-                    {(msg) => <p className={styles.error}>{msg}</p>}
-                  </ErrorMessage>
-                </div>
-                <div
-                  className={styles.buttonsContainer}
-                  style={{ marginTop: "15px" }}
+            }}
+          >
+            {({ status }) => (
+              <>
+                <p
+                  className={`${styles.errorMessage} ${styles.error}`}
+                  style={{ marginBottom: "10px" }}
                 >
-                  <button type="submit" className={styles.loginButton}>
-                    Actualizar
+                  {errorMessage}
+                </p>
+                <Form>
+                  <div className={styles.logoContainer} style={{ width: "80px" }}>
+                    <img
+                      src={imagePreview ? imagePreview : imageUser}
+                      alt="profile"
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "relative",
+                        rigth: 0,
+                        left: "54px",
+                        bottom: "18px",
+                      }}
+                    >
+                      <button onClick={handleClick}>
+                        <img src={path.addImg} />
+                      </button>
+                      <input
+                        type="file"
+                        id="input"
+                        onChange={handleChange}
+                        style={{ display: "none" }}
+                        ref={hiddenImageInput}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Nombre</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="Nombre"
+                      name="name"
+                      type="text"
+                    />
+                    <ErrorMessage name="name">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Apellido</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="Apellido"
+                      name="last_name"
+                      type="text"
+                    />
+                    <ErrorMessage name="last_name">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Documento de Identidad</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="12345678"
+                      name="dni"
+                      type="text"
+                    />
+                    <ErrorMessage name="dni">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Cuenta Linkedin</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="https://linkedin.com/tucuenta"
+                      name="linkedin"
+                      type="text"
+                    />
+                    <ErrorMessage name="linkedin">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Email</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="Email"
+                      name="email"
+                      type="text"
+                    />
+                    <ErrorMessage name="email">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Contraseña</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="*********"
+                      name="password"
+                      type="password"
+                    />
+                    <ErrorMessage name="password">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div className={styles.fullField}>
+                    <label className={styles.label}>Confirmar Contraseña</label>
+                    <Field
+                      className={styles.field}
+                      placeholder="*********"
+                      name="password_confirmation"
+                      type="password"
+                    />
+                    <ErrorMessage name="password_confirmation">
+                      {(msg) => <p className={styles.error}>{msg}</p>}
+                    </ErrorMessage>
+                  </div>
+                  <div
+                    className={styles.buttonsContainer}
+                    style={{ marginTop: "15px" }}
+                  >
+                    <button type="submit" className={styles.loginButton}>
+                      Actualizar
                   </button>
-                  <Link href="/user">
-                    <button className={styles.forgotPasswordButton}>
-                      Cancelar
+                    <Link href="/user">
+                      <button className={styles.forgotPasswordButton}>
+                        Cancelar
                     </button>
-                  </Link>
-                </div>
-              </Form>
-            </>
-          )}
-        </Formik>
-      </div>
-    </div>
+                    </Link>
+                  </div>
+                </Form>
+              </>
+            )}
+          </Formik>
+        </Flex>
+      </Flex>
+    </>
   );
 };
 
