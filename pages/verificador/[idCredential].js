@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { getFetch } from "../api/client";
+import { parse, isDate } from "date-fns";
+// import { es } from "date-fns/locale";
 
 function VerifyCertificate() {
   const [certificateInfo, setCertificateInfo] = useState();
@@ -20,6 +22,7 @@ function VerifyCertificate() {
   };
 
   const router = useRouter();
+  let issue_date = null;
 
   useEffect(() => {
     const getCredential = async () => {
@@ -81,22 +84,31 @@ function VerifyCertificate() {
             </p>
           </div>
           <div className={styles.grayBorder}>
-            <div>
-              <h1 className={styles.certificadoTitle}>
-                Emisor: <span className={styles.wordBold}>Codeable Perú</span>
-              </h1>
-            </div>
+            {/* <div> */}
+            <h1 className={styles.certificadoTitle}>
+              Emisor:{" "}
+              <span className={styles.wordBold}>
+                {certificateInfo.name_institution}
+              </span>
+            </h1>
+            {/* </div> */}
             <p className={styles.certificadoContent}>
               fecha de emisión:{" "}
-              <span className={styles.wordBold}>25 de septiembre 20202</span>
+              <span className={styles.wordBold}>
+                {certificateInfo.issue_at}
+              </span>
             </p>
             <p className={styles.certificadoContent}>
               fecha de expiración:{" "}
-              <span className={styles.wordBold}>Nunca expira</span>
+              <span className={styles.wordBold}>
+                {certificateInfo.expiration_at
+                  ? certificateInfo.expiration_at
+                  : "Nunca expira"}
+              </span>
             </p>
           </div>
           <div className={styles.buttonsContainer}>
-            <Link href="/verificador">
+            <Link href="/webcertificate">
               <button className={styles.backButton}>Volver</button>
             </Link>
             <Link href="/verificador">
