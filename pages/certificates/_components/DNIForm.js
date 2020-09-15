@@ -6,6 +6,7 @@ import styles from "./../../../styles/Certificates.module.scss";
 import { getCredentials } from "./../../../slices/credentialsSlice";
 import Certificates from "../search";
 import { useRouter } from "next/router";
+import { getFetch } from "../../api/client";
 
 const buttonMessages = {
   onSearch: {
@@ -39,18 +40,13 @@ export default function DNIForm({ state = null, setState, dispatch, dni }) {
     setIsLoading(true);
     setTimeout(async () => {
       setIsLoading(false);
-      if (dni !== DNIValue) {
+      const res = await getFetch(`/users/${DNI}/credentials`);
+      if (res.data.errors) {
         setState("notFound");
-      } else {
-        const { error, payload } = await dispatch(getCredentials());
-        if (!payload.data.errors) {
-          router.push("/user");
-        } else {
-          setState("notFound");
-        }
+      } else if (res.data.user) {
+        router.push("/user");
       }
       setEdit(true);
-      setState("success");
     }, 1000);
   };
 

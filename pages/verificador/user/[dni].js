@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "../../../styles/Profile.module.css";
 import stylesNotFound from "./../../../styles/Verify.module.css";
 import stylesVerify from "../../../styles/Verify.module.css";
-import Certificate from "./../../user/certificate";
+import Certificate from "./../../user/_components/certificate";
 
 import { useRouter } from "next/router";
 
@@ -27,7 +27,6 @@ const UserProfile = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       const res = await getFetch(`/users/${router.query.dni}/credentials`);
-
       if (!res.data.errors) {
         setUserInfo(res.data.user);
         setCredentials(res.data.credentials);
@@ -58,12 +57,29 @@ const UserProfile = () => {
                   <img src={path.profileImg} alt="profile" />
                 </div>
                 <h1 className={styles.name}>
-                  {userInfo.name} {userInfo.last_name}
+                  {userInfo.name[0].toUpperCase() + userInfo.name.slice(1)}{" "}
+                  {userInfo.last_name[0].toUpperCase() +
+                    userInfo.last_name.slice(1)}
                 </h1>
                 <div className={styles.editButtonContainer}>
-                  <button className={stylesVerify.contactToLinkedin}>
-                    Contactar
-                  </button>
+                  {userInfo.linkedin ? (
+                    <Link href={userInfo.linkedin}>
+                      <button className={stylesVerify.contactToLinkedin}>
+                        Contactar
+                      </button>
+                    </Link>
+                  ) : (
+                    <button
+                      className={stylesVerify.contactToLinkedin}
+                      disabled={true}
+                      style={{
+                        background: "rgba(66, 153, 225, 0.6)",
+                        cursor: "not-allowed",
+                      }}
+                    >
+                      Contactar
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
