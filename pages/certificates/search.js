@@ -47,7 +47,6 @@ const Certificates = () => {
           setMessage={setMessage}
           dispatch={dispatch}
           dni={"43457634"}
-          // user.dni
         />
         {currentState !== "onSearch" && (
           <InfoSection setCurrentState={setCurrentState} />

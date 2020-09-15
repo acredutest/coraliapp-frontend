@@ -58,7 +58,6 @@ const UserEdit = () => {
     const getImage = async () => {
       const res = await getFetch(`/users/${user.id}/image-profile`);
       if (res) {
-        console.log(res.data.image_url)
         if (res.data.image_url) {
           setImageUser(res.data.image_url);
           dispatch(addImage(imageUser));

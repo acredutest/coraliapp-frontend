@@ -16,4 +16,3 @@ const Create = () => {
 }
 
 export default (Create);
-// export default ProtectRoute(Create);

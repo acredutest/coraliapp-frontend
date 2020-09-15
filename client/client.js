@@ -71,7 +71,7 @@ const postFetch = async (endpoint, body) => {
       return Promise.reject(data.errors.message);
     }
   } catch (error) {
-    return console.log(error);
+    console.error(error);
   }
 };
 
@@ -90,7 +90,7 @@ const postPDFFetch = async (endpoint, body) => {
       return Promise.reject(data.errors.message);
     }
   } catch (error) {
-    return console.log(error);
+    console.error(error);
   }
 };
 

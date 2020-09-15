@@ -52,7 +52,6 @@ function SignIn(props) {
                     setErrorMessage(error.message);
                   }
                 } else if (payload.data) {
-                  console.log(payload.data)
                   const resImage = await getFetch(`/users/${payload.data.id}/image-profile`);
                   if (resImage.data) {
                     dispatch(addImage(resImage.data.image_url));

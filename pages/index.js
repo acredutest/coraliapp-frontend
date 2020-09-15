@@ -12,6 +12,7 @@ export default function Home() {
     logo: "/images/logo.png",
     logofooter: "/images/logo-small.png",
   };
+  
   return (
     <>
       <Head>
@@ -37,4 +38,3 @@ export default function Home() {
     </>
   );
 }
-// serviceWorker.unregister();
