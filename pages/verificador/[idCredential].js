@@ -4,7 +4,7 @@ import styles from "./../../styles/Verify.module.css";
 import stylesCertificate from "./../../styles/Certificates.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { Page, Document, pdfjs } from "react-pdf";
 import { getFetch } from "../api/client";
 import { Page, Document, pdfjs } from "react-pdf";
 
@@ -12,7 +12,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 function VerifyCertificate() {
   const [certificateInfo, setCertificateInfo] = useState();
-
+  const [pageNumber, setPageNumber] = useState(1);
+  const [numPages, setNumPages] = useState(0);
   const [isError, setIsError] = useState(false);
   const [file, setFile] = useState();
   const [numPages, setNumPages] = useState(0);
@@ -23,10 +24,15 @@ function VerifyCertificate() {
     padLock: "/images/padLock.svg",
     certificateImg: "/images/certificado.jpg",
     frame: "/images/frame.png",
+    pdftest: "/images/certificateFer.png",
+  };
+  const onDocumentLoadSuccess = (numPage) => {
+    setNumPages(numPage);
   };
 
   const router = useRouter();
 
+<<<<<<< HEAD
   useEffect(() => {
     const getCredential = async () => {
       const res = await getFetch(
@@ -46,22 +52,55 @@ function VerifyCertificate() {
 
   console.log(file);
 
+=======
+  // useEffect(() => {
+  //   const getCredential = async () => {
+  //     const res = await getFetch(
+  //       `/credentials/code/${router.query.idCredential}`
+  //     );
+
+  //     if (res.data.errors) setIsError(true);
+  //     else setCertificateInfo(res.data);
+  //   };
+  //   if (router.query.idCredential) {
+  //     getCredential();
+  //   }
+  // }, [router]);
+  console.log("certificateInfo");
+  console.log(certificateInfo);
+>>>>>>> develop
   return (
     <div className={styles.certificadoBody}>
       <Head>
         <title>Coraliapp | Verify certificate</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {certificateInfo && (
+      {true && (
         <div className={styles.certificadoContainer}>
           <section
             className={`${stylesCertificate.section} ${styles.widtOneHundred}`}
             style={{ width: "90%" }}
           >
             <div className={stylesCertificate.uploadCertificateImg}>
+<<<<<<< HEAD
               <Document file={file}>
                 <Page pageNumber={1} width={300} />
               </Document>
+=======
+              <img className={stylesCertificate.frameImg} src={path.frame} />
+              <img
+                className={stylesCertificate.certificateImg}
+                src={path.pdftest}
+              />
+              {/* <Document
+                className={stylesCertificate.certificateImg}
+                file={path.pdftest}
+                onLoadSuccess={onDocumentLoadSuccess}
+                noData={<h4>Certificate</h4>}
+              >
+                <Page pageNumber={pageNumber} width={180} />
+              </Document> */}
+>>>>>>> develop
             </div>
           </section>
           <div className={`${styles.grayBorder} ${styles.displayFlex}`}>
@@ -85,8 +124,8 @@ function VerifyCertificate() {
             <img src={path.padLock} alt="padlock" className={styles.img} />
             <p className={styles.padlockContent}>
               Esta credencial se encuentra asegurada bajo un código unico N°
-              {certificateInfo.code} provisto a la institución que suscribe el
-              certificado
+              {router.query.idCredential} provisto a la institución que suscribe
+              el certificado
             </p>
           </div>
           <div className={styles.grayBorder}>

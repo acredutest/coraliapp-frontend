@@ -7,6 +7,7 @@ import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
 
 import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
+import { Flex, Button } from "@chakra-ui/core";
 
 const validations = yup.object().shape({
   name: yup
@@ -120,16 +121,17 @@ function UserForm({ dispatch, router, setErrorMessage, errorMessage }) {
                   )}
                 </ErrorMessage>
               </div>
-              <div className={styles.buttonsContainer}>
-                <button type="submit" className={styles.loginButton}>
+              <Flex flexDirection="column">
+                <br />
+                <Button type="submit" className={styles.loginButton} variantColor="#4bc0d0">
                   Registrarme
-                </button>
+                </Button>
                 <Link href="/signin">
-                  <button className={styles.forgotPasswordButton}>
+                  <Button className={styles.forgotPasswordButton} variant="outline" variantColor="#4bc0d0">
                     Ya tengo una cuenta
-                  </button>
+                  </Button>
                 </Link>
-              </div>
+              </Flex>
             </Form>
           </>
         )}

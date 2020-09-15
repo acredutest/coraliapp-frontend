@@ -1,4 +1,5 @@
 import { Provider } from "react-redux";
+import { CSSReset } from "@chakra-ui/core";
 
 import { ThemeProvider } from "@chakra-ui/core";
 

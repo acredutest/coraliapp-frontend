@@ -53,8 +53,12 @@ const Profile = () => {
           >
             <Avatar name={user.name} src={user.image} size="lg" />
             <h1 className={styles.name}>
+<<<<<<< HEAD
               {user.name[0].toUpperCase() + user.name.slice(1)}{" "}
               {user.last_name[0].toUpperCase() + user.last_name.slice(1)}
+=======
+              {user.name} {user.last_name}
+>>>>>>> develop
             </h1>
           </Flex>
           <Flex className={styles.certificateButtonsContainer}>
@@ -111,7 +115,7 @@ const Profile = () => {
                   </>
                 )}
 
-                <Link href="/certificates/search">
+                <Link href="/user/uploadcertificate">
                   <button
                     className={`${styles.addCertificateButton} ${styles.itemContainer}`}
                   >
