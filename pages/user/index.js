@@ -45,7 +45,7 @@ const Profile = () => {
                 currentPage === "certificate"
                   ? styles.currentCertificateButton
                   : styles.noCurrentCertificateButton
-                } ${styles.certificateButton}`}
+              } ${styles.certificateButton}`}
               onClick={() => setCurrentPage("certificate")}
             >
               <span className={styles.quantityCertificates}>
@@ -53,30 +53,30 @@ const Profile = () => {
                   ? credentials.length
                   : 0}
               </span>
-            Certificados Vigentes
-          </button>
+              Certificados Vigentes
+            </button>
             <button
               className={`${
                 currentPage === "constancia"
                   ? styles.currentCertificateButton
                   : styles.noCurrentCertificateButton
-                } ${styles.certificateButton}`}
+              } ${styles.certificateButton}`}
               onClick={() => setCurrentPage("constancia")}
             >
               <span className={styles.quantityCertificates}>0</span>
-            Constancias Vigentes
-          </button>
+              Constancias Vigentes
+            </button>
             <button
               className={`${
                 currentPage === "reverificar"
                   ? styles.currentCertificateButton
                   : styles.noCurrentCertificateButton
-                } ${styles.certificateButton}`}
+              } ${styles.certificateButton}`}
               onClick={() => setCurrentPage("reverificar")}
             >
               <span className={styles.quantityCertificates}>0</span>
-            Para revalidar
-          </button>
+              Para revalidar
+            </button>
           </Flex>
           <div className={styles.certificateContainer}>
             {currentPage === "certificate" ? (
@@ -93,7 +93,7 @@ const Profile = () => {
                   </>
                 )}
 
-                <Link href="/certificates/search">
+                <Link href="/user/uploadcertificate">
                   <button
                     className={`${styles.addCertificateButton} ${styles.itemContainer}`}
                   >

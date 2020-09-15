@@ -11,7 +11,7 @@ import { signOut } from "../../redux/slices/authSlice";
 
 const Header = props => {
   const [loadingSignOut, setLoadingSignOut] = useState(false);
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -22,7 +22,7 @@ const Header = props => {
       router.push("/signin");
     }
     setLoadingSignOut(false);
-  }
+  };
 
   return (
     <Flex
@@ -35,13 +35,24 @@ const Header = props => {
       {...props}
     >
       <Flex align="center" mr={5}>
-        <img src="/images/logo-small.png" className={styles.logo} alt="Coraliapp" />
+        <img
+          src="/images/logo-small.png"
+          className={styles.logo}
+          alt="Coraliapp"
+        />
       </Flex>
 
       <Menu>
         <MenuButton as={Button} className={styles.menuButtonHeader}>
-          <Avatar name={user.name} src={""} size="sm" className={styles.menuIconChevron} />
-          <Text fontSize="sm" className={styles.menuIconChevron}>{user.name}</Text>
+          <Avatar
+            name={user.name}
+            src={""}
+            size="sm"
+            className={styles.menuIconChevron}
+          />
+          <Text fontSize="sm" className={styles.menuIconChevron}>
+            {user.name}
+          </Text>
           <ChevronDown size={20} className={styles.menuIconChevron} />
           <MenuIcon className={styles.menuIconMenu} />
         </MenuButton>
@@ -53,7 +64,7 @@ const Header = props => {
             <Link href="/user">Pedir soporte</Link>
           </MenuItem>
           <MenuItem className={styles.menuItemHeader}>
-            <Link href="/user">Buscar certificados</Link>
+            <Link href="/certificates/search">Buscar certificados</Link>
           </MenuItem>
           <MenuItem className={styles.menuItemHeader}>
             <Text onClick={handleSignOut}>Salir</Text>

@@ -25,19 +25,19 @@ function VerifyCertificate() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    const getCredential = async () => {
-      const res = await getFetch(
-        `/credentials/code/${router.query.idCredential}`
-      );
+  // useEffect(() => {
+  //   const getCredential = async () => {
+  //     const res = await getFetch(
+  //       `/credentials/code/${router.query.idCredential}`
+  //     );
 
-      if (res.data.errors) setIsError(true);
-      else setCertificateInfo(res.data);
-    };
-    if (router.query.idCredential) {
-      getCredential();
-    }
-  }, [router]);
+  //     if (res.data.errors) setIsError(true);
+  //     else setCertificateInfo(res.data);
+  //   };
+  //   if (router.query.idCredential) {
+  //     getCredential();
+  //   }
+  // }, [router]);
   console.log("certificateInfo");
   console.log(certificateInfo);
   return (
@@ -46,7 +46,7 @@ function VerifyCertificate() {
         <title>Coraliapp | Verify certificate</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {certificateInfo && (
+      {true && (
         <div className={styles.certificadoContainer}>
           <section
             className={`${stylesCertificate.section} ${styles.widtOneHundred}`}
@@ -54,18 +54,18 @@ function VerifyCertificate() {
           >
             <div className={stylesCertificate.uploadCertificateImg}>
               <img className={stylesCertificate.frameImg} src={path.frame} />
-              {/* <img
+              <img
                 className={stylesCertificate.certificateImg}
-                src={path.certificateImg}
-              /> */}
-              <Document
+                src={path.pdftest}
+              />
+              {/* <Document
                 className={stylesCertificate.certificateImg}
-                file={certificateInfo.file}
+                file={path.pdftest}
                 onLoadSuccess={onDocumentLoadSuccess}
                 noData={<h4>Certificate</h4>}
               >
                 <Page pageNumber={pageNumber} width={180} />
-              </Document>
+              </Document> */}
             </div>
           </section>
           <div className={`${styles.grayBorder} ${styles.displayFlex}`}>
@@ -89,8 +89,8 @@ function VerifyCertificate() {
             <img src={path.padLock} alt="padlock" className={styles.img} />
             <p className={styles.padlockContent}>
               Esta credencial se encuentra asegurada bajo un código unico N°
-              {certificateInfo.code} provisto a la institución que suscribe el
-              certificado
+              {router.query.idCredential} provisto a la institución que suscribe
+              el certificado
             </p>
           </div>
           <div className={styles.grayBorder}>
