@@ -32,27 +32,6 @@ function VerifyCertificate() {
 
   const router = useRouter();
 
-<<<<<<< HEAD
-  useEffect(() => {
-    const getCredential = async () => {
-      const res = await getFetch(
-        `/credentials/code/${router.query.idCredential}`
-      );
-
-      if (res.data.errors) setIsError(true);
-      else {
-        setCertificateInfo(res.data.credential);
-        setFile(res.data.pdf);
-      }
-    };
-    if (router.query.idCredential) {
-      getCredential();
-    }
-  }, [router]);
-
-  console.log(file);
-
-=======
   // useEffect(() => {
   //   const getCredential = async () => {
   //     const res = await getFetch(
@@ -68,7 +47,6 @@ function VerifyCertificate() {
   // }, [router]);
   console.log("certificateInfo");
   console.log(certificateInfo);
->>>>>>> develop
   return (
     <div className={styles.certificadoBody}>
       <Head>
@@ -82,11 +60,6 @@ function VerifyCertificate() {
             style={{ width: "90%" }}
           >
             <div className={stylesCertificate.uploadCertificateImg}>
-<<<<<<< HEAD
-              <Document file={file}>
-                <Page pageNumber={1} width={300} />
-              </Document>
-=======
               <img className={stylesCertificate.frameImg} src={path.frame} />
               <img
                 className={stylesCertificate.certificateImg}
@@ -100,7 +73,6 @@ function VerifyCertificate() {
               >
                 <Page pageNumber={pageNumber} width={180} />
               </Document> */}
->>>>>>> develop
             </div>
           </section>
           <div className={`${styles.grayBorder} ${styles.displayFlex}`}>
