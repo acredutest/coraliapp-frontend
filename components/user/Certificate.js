@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/Profile.module.css";
+import styles from "./../../styles/Profile.module.css";
 
 export default function Certificate({
   certificate,
@@ -8,7 +8,11 @@ export default function Certificate({
 }) {
   return (
     <div className={styles.itemContainer}>
-      <img src={certificate} alt="certificado" />
+      <img
+        src={certificate}
+        alt="certificado"
+        style={{ width: "180px", height: "138pxs" }}
+      />
       <div className={styles.itemDescription}>
         <span className={`${styles.certificateStatus} ${styles.lightgray}`}>
           <img
@@ -19,9 +23,10 @@ export default function Certificate({
           Verificado
         </span>
         <h1 className={styles.certificateTitle}>
-          Certificado FullStack by Codeable
+          {credentialInformation.title} by{" "}
+          {credentialInformation.name_institution}
         </h1>
-        <p className={styles.darkgray}>{credentialInformation}</p>
+        <p className={styles.darkgray}>{credentialInformation.description}</p>
         <div className={styles.shareContainer}>
           <img src="/images/linkedin.svg" className={styles.shareIcon} />
           <div className={styles.shareInfo}>

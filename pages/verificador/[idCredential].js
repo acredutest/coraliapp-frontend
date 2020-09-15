@@ -6,12 +6,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Page, Document, pdfjs } from "react-pdf";
 import { getFetch } from "../api/client";
+import { Page, Document, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function VerifyCertificate() {
   const [certificateInfo, setCertificateInfo] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(0);
   const [isError, setIsError] = useState(false);
+  const [file, setFile] = useState();
+  const [numPages, setNumPages] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const path = {
     shieldLightBlue: "/images/shieldLightBlue.svg",
@@ -79,22 +85,31 @@ function VerifyCertificate() {
             </p>
           </div>
           <div className={styles.grayBorder}>
-            <div>
-              <h1 className={styles.certificadoTitle}>
-                Emisor: <span className={styles.wordBold}>Codeable Perú</span>
-              </h1>
-            </div>
+            {/* <div> */}
+            <h1 className={styles.certificadoTitle}>
+              Emisor:{" "}
+              <span className={styles.wordBold}>
+                {certificateInfo.name_institution}
+              </span>
+            </h1>
+            {/* </div> */}
             <p className={styles.certificadoContent}>
               fecha de emisión:{" "}
-              <span className={styles.wordBold}>25 de septiembre 20202</span>
+              <span className={styles.wordBold}>
+                {certificateInfo.issue_at}
+              </span>
             </p>
             <p className={styles.certificadoContent}>
               fecha de expiración:{" "}
-              <span className={styles.wordBold}>Nunca expira</span>
+              <span className={styles.wordBold}>
+                {certificateInfo.expiration_at
+                  ? certificateInfo.expiration_at
+                  : "Nunca expira"}
+              </span>
             </p>
           </div>
           <div className={styles.buttonsContainer}>
-            <Link href="/verificador">
+            <Link href="/webcertificate">
               <button className={styles.backButton}>Volver</button>
             </Link>
             <Link href="/verificador">

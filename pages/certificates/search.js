@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import Head from "next/head";
 
 import { useDispatch, useSelector } from "react-redux";
+import ProtectedRoute from "./../../hocs/ProtectedRoute";
 
 import styles from "./../../styles/Certificates.module.scss";
 import FrameCertificate from "./../../components/public/FrameCertificate";
@@ -9,9 +10,9 @@ import DNIForm from "./../../components/public/DNIForm";
 import InfoSection from "./../../components/public/InfoSection";
 
 const messages = {
-  onSearch: `Descubre que certificados tienes disponibles para ti en el sistema,
+  onSearch: `Descubre que certificados tienes disponibles en el sistema,
     ingresa el número de tu documento de identidad para buscar.`,
-  notFound: `En este momento no tienes certificados tuyos disponibles en el sistema.`,
+  notFound: `En este momento no tenemos certificados en el sistema con el DNI ingresado.`,
   success: "Hemos encontrado unos certificados a tu nombre  🎉",
 };
 
@@ -56,4 +57,5 @@ const Certificates = () => {
   );
 };
 
+// export default ProtectedRoute(Certificates);
 export default Certificates;

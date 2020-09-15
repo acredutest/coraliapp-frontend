@@ -1,13 +1,10 @@
 import { Provider } from "react-redux";
 
-import { theme, ThemeProvider } from '@chakra-ui/core';
+import { ThemeProvider } from "@chakra-ui/core";
 
 import store from "./../redux/store";
 import "../styles/index.css";
-
-const newTheme = {
-  ...theme,
-};
+import newTheme from "../styles/theme";
 
 function MyApp({ Component, pageProps }) {
   return (

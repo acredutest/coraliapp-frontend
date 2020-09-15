@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
-import Certificate from "./certificate";
 
 import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";
-
-import { useDispatch } from "react-redux";
 import Header from "./../../components/user/Header";
 import { Avatar, Flex } from "@chakra-ui/core";
+
+import { getFetch } from "./../../client/client";
+import Certificate from "./../../components/user/Certificate";
 
 const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
 
   const user = useSelector((state) => state.auth.user);
-  const credentials = useSelector((state) => state.credentials.credentials);
-  const dispatch = useDispatch();
+  const [credentials, setCredentials] = useState();
 
   const path = {
     profileImg: "/images/profile.svg",
@@ -24,6 +23,18 @@ const Profile = () => {
     addImg: "/images/plus.svg",
     verificateImg: "/images/verificate.svg",
   };
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const res = await getFetch(`/users/${user.dni}/credentials`);
+      if (!res.data.errors) {
+        setCredentials(res.data.credentials);
+      }
+    };
+    if (user.dni) {
+      getUserInfo();
+    }
+  }, [user]);
 
   return (
     <>
