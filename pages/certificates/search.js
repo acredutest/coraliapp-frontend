@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
 import Head from "next/head";
-import styles from "./../../styles/Certificates.module.scss";
-import FrameCertificate from "./_components/FrameCertificate";
-import DNIForm from "./_components/DNIForm";
-import InfoSection from "./_components/InfoSection";
+
 import { useDispatch, useSelector } from "react-redux";
+
+import styles from "./../../styles/Certificates.module.scss";
+import FrameCertificate from "./../../components/public/FrameCertificate";
+import DNIForm from "./../../components/public/DNIForm";
+import InfoSection from "./../../components/public/InfoSection";
 
 const messages = {
   onSearch: `Descubre que certificados tienes disponibles para ti en el sistema,

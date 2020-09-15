@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import styles from './../../styles/Main.module.css';
 import ProtectRoute from '../../hocs/ProtectedRoute';
 import InstitutionLayout from '../../layouts/InstitutionLayout/InstitutionLayout';
-import { BreadcrumbInstitution } from '../../components/common/BreadcrumInstitution';
-import { ListCredentials } from '../../components/ListCredentials';
+import Breadcrumb from '../../components/institution/Breadcrumb';
+import ListCredentials from './../../components/institution/ListCredentials/ListCredentials';
 
 const Institution = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const Institution = () => {
 
   return (
     <InstitutionLayout>
-      <BreadcrumbInstitution title={"Certificados Diseñados"} />
+      <Breadcrumb title={"Certificados Diseñados"} />
       <Box className={styles.container}>
         <ListCredentials handleAddButton={handleAddButton} />
       </Box>

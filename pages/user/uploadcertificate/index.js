@@ -42,7 +42,7 @@ const validations = yup.object().shape({
 });
 const UploadCertificate = () => {
   const path = {
-    iconcloud: "/img/inputUpload.pdf",
+    iconcloud: "/documents/input-upload.pdf",
   };
   const [errorMessage, setErrorMessage] = useState("");
   const [file, setFile] = useState(path.iconcloud);

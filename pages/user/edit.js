@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as yup from "yup";
-import styles from "./../../styles/SignIn.module.css";
 import Link from "next/link";
 import Head from "next/head";
-import { useSelector, useDispatch } from "react-redux";
-import ProtectedRoute from "./../../hocs/ProtectedRoute";
-import { updateUser, addImage } from "../../slices/authSlice";
 import { useRouter } from "next/router";
-import { patchFetch, getFetch, patchImageFetch } from "../api/client";
+
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useSelector, useDispatch } from "react-redux";
 import { Flex, Button } from "@chakra-ui/core";
-import { HeaderUser } from "../../components/common/HeaderUser";
+import * as yup from "yup";
+
+import styles from "./../../styles/SignIn.module.css";
+import ProtectedRoute from "./../../hocs/ProtectedRoute";
+import { updateUser, addImage } from "./../../redux/slices/authSlice";
+import { patchFetch, getFetch, patchImageFetch } from "./../../client/client";
+import Header from "./../../components/user/Header";
 
 const validations = yup.object().shape({
   name: yup
@@ -86,11 +88,11 @@ const UserEdit = () => {
 
   return (
     <>
-      <HeaderUser />
       <Head>
         <title>Coraliapp | Edit</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <Header />
       <Flex flexDirection="column" justifyContent="center" alignItems="center" className={styles.container}>
 
         <br />

@@ -1,14 +1,13 @@
 import { Provider } from "react-redux";
-import { CSSReset } from "@chakra-ui/core";
 
 import { theme, ThemeProvider } from '@chakra-ui/core';
 
-import store from "./../store";
+import store from "./../redux/store";
 import "../styles/index.css";
 
 const newTheme = {
   ...theme,
-};  
+};
 
 function MyApp({ Component, pageProps }) {
   return (

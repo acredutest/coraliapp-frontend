@@ -18,7 +18,6 @@ function VerifyCertificate() {
     padLock: "/images/padLock.svg",
     certificateImg: "/images/certificado.jpg",
     frame: "/images/frame.png",
-    // pdftest: "/img/testcert.pdf",
   };
   const onDocumentLoadSuccess = (numPage) => {
     setNumPages(numPage);

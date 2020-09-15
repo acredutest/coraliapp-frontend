@@ -8,8 +8,7 @@ import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
-import { logout } from "./../../slices/authSlice";
-import { HeaderUser } from "../../components/common/HeaderUser";
+import Header from "./../../components/user/Header";
 import { Avatar, Flex } from "@chakra-ui/core";
 
 const Profile = () => {
@@ -31,14 +30,14 @@ const Profile = () => {
       <Head>
         <title>Coraliapp | Profile</title>
       </Head>
-      <HeaderUser />
+      <Header />
       <div className={styles.container}>
         <div className={styles.profileContainer}>
           <Flex flexDirection="column" alignItems="center" justifyContent="center" className={styles.informationContainer}>
-              <Avatar name={user.name} src={user.image} size="lg" />
-              <h1 className={styles.name}>
-                {user.name} {user.last_name}
-              </h1>
+            <Avatar name={user.name} src={user.image} size="lg" />
+            <h1 className={styles.name}>
+              {user.name} {user.last_name}
+            </h1>
           </Flex>
           <Flex className={styles.certificateButtonsContainer}>
             <button
