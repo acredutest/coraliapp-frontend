@@ -16,8 +16,6 @@ export default function WebCertificate() {
   };
   return (
     <div className={styles.container}>
-      {/* <div className={styles.preview}></div>
-      <div className={styles.success}></div> */}
       <div className={styles.backgroundcertificate}>
         <img src={path.certificate} className={styles.certificate} />
       </div>

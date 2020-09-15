@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import styles from "../../styles/Profile.module.css";
-import Certificate from "./_components/certificate";
 
 import ProtectedRoute from "./../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";
-
-import { HeaderUser } from "../../components/common/HeaderUser";
+import Header from "./../../components/user/Header";
 import { Avatar, Flex } from "@chakra-ui/core";
 
-import { getFetch } from "../api/client";
+import { getFetch } from "./../../client/client";
+import Certificate from "./../../components/user/Certificate";
 
 const Profile = () => {
   const [currentPage, setCurrentPage] = useState("certificate");
@@ -42,15 +41,10 @@ const Profile = () => {
       <Head>
         <title>Coraliapp | Profile</title>
       </Head>
-      <HeaderUser />
+      <Header />
       <div className={styles.container}>
         <div className={styles.profileContainer}>
-          <Flex
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            className={styles.informationContainer}
-          >
+          <Flex flexDirection="column" alignItems="center" justifyContent="center" className={styles.informationContainer}>
             <Avatar name={user.name} src={user.image} size="lg" />
             <h1 className={styles.name}>
               {user.name} {user.last_name}

@@ -24,7 +24,6 @@ function VerifyCertificate() {
     padLock: "/images/padLock.svg",
     certificateImg: "/images/certificado.jpg",
     frame: "/images/frame.png",
-    pdftest: "/images/certificateFer.png",
   };
   const onDocumentLoadSuccess = (numPage) => {
     setNumPages(numPage);
@@ -32,21 +31,6 @@ function VerifyCertificate() {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const getCredential = async () => {
-  //     const res = await getFetch(
-  //       `/credentials/code/${router.query.idCredential}`
-  //     );
-
-  //     if (res.data.errors) setIsError(true);
-  //     else setCertificateInfo(res.data);
-  //   };
-  //   if (router.query.idCredential) {
-  //     getCredential();
-  //   }
-  // }, [router]);
-  console.log("certificateInfo");
-  console.log(certificateInfo);
   return (
     <div className={styles.certificadoBody}>
       <Head>
