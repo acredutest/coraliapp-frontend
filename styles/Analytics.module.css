@@ -1,0 +1,72 @@
+.container {
+  background: #f4f5f6;
+  padding: 30px 0;
+}
+
+.viewsContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 75px;
+  grid-row-gap: 78px;
+  width: 60%;
+  margin: 50px auto 40px;
+}
+
+.analyticsContainer {
+  width: 100%;
+  height: 100%;
+  padding: 21px 18px;
+  background: #ffffff;
+  border: 1px solid #c6cad2;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 10px;
+}
+
+.analyticName {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  color: #2e384d;
+  text-align: center;
+}
+
+.imageContainer {
+  width: 22%;
+  margin: auto;
+}
+
+.analyticText {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.analyticVisitsCount {
+  font-style: normal;
+  font-weight: 550;
+  font-size: 30px;
+  margin: 3px 0;
+}
+
+.quantityContainer {
+  display: flex;
+}
+
+.percentage {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.descriptionContainer {
+  margin-right: 5px;
+}
+
+.buttonContainer {
+  width: 9.5%;
+  margin: auto;
+}
