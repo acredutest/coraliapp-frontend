@@ -6,8 +6,8 @@ import {
   getCookieTokenObject,
   removeCookieTokenObject,
 } from "./../helpers/cookies.helpers";
-import { getUser } from "./../slices/authSlice";
-import { loadingStarted, loadingStopped } from "../slices/statusSlice";
+import { getUser } from "./../redux/slices/authSlice";
+import { loadingStarted, loadingStopped } from "./../redux/slices/statusSlice";
 
 export default function ProtectRoute(Component) {
   return () => {

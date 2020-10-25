@@ -20,7 +20,6 @@
 }
 .verifybutton {
   padding: 0.35em 1.2em;
-  /* border: 0.1em solid #ffffff; */
   border-radius: 0.2em;
   box-sizing: border-box;
   text-decoration: none;
@@ -84,7 +83,6 @@
 .publicbuttonblue {
   display: inline-block;
   padding: 0.35em 1.2em;
-  /* border: 0.1em solid #ffffff; */
   border-radius: 0.2em;
   box-sizing: border-box;
   text-decoration: none;
@@ -116,7 +114,6 @@
 .publicbuttonwhite {
   display: inline-block;
   padding: 0.35em 1.2em;
-  /* border: 0.1em solid #ffffff; */
   margin: 0;
   border-radius: 0.2em;
   box-sizing: border-box;

@@ -16,8 +16,6 @@ export default function WebCertificate() {
   };
   return (
     <div className={styles.container}>
-      {/* <div className={styles.preview}></div>
-      <div className={styles.success}></div> */}
       <div className={styles.backgroundcertificate}>
         <img src={path.certificate} className={styles.certificate} />
       </div>
@@ -45,10 +43,6 @@ export default function WebCertificate() {
             </a>
           </div>
         </div>
-        {/* <div className={styles.publicbutton}>
-          <h2 className={styles.idcertificate}>ID certificado: 1534275</h2>
-          <button>Verificar Certificado</button>
-        </div> */}
         <div className={styles.institutiondata}>
           <h1 className={styles.title}>Fullstack web developer bootcamp</h1>
           <div className={styles.rrss}>
