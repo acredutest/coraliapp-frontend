@@ -4,6 +4,9 @@ const newTheme = {
   colors: {
     //without variantColor and variant buttons
     white: "#fff",
+    teal: {
+      500: "#319795"
+    },
     green: {
       100: "#8DE0EB",
       200: "#4BC0D0",
