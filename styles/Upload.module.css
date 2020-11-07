@@ -81,3 +81,14 @@
   display: flex;
   justify-content: space-between;
 }
+
+.addresseeButton {
+  position: relative;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.inputFileHidden {
+  display: none;
+}

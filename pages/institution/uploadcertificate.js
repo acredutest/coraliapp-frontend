@@ -1,4 +1,4 @@
-import React, {useRef}from "react";
+import React, {useState, useRef}from "react";
 import ProtectRoute from "../../hocs/ProtectedRoute";
 import InstitutionLayout from "../../layouts/InstitutionLayout/InstitutionLayout";
 import styles from "../../styles/Upload.module.css"
@@ -86,15 +86,30 @@ function FieldDate({label, name}) {
   )
 }
 
-function UploadField({label}) {
-  const infoCSVRef = React.useRef();
+function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName}) {
+  const infoCSVRef = useRef();
   return(
     <div className={styles.fullfield}>
       <label className={styles.label}>{label}</label>
       <Flex justifyContent="space-between" className={styles.fieldContainer}>
-        <Button variantColor={"teal"}>
-          <Upload />Cargar lista de destinatarios
-        </Button>
+        <div className={styles.addresseeButton}>
+          {csvName != undefined ? 
+            <Button variantColor={"teal"} onClick={handleClick}>
+              {csvName}
+            </Button>
+           :
+            <Button variantColor={"teal"} onClick={handleClick}>
+              <Upload />Cargar lista de destinatarios
+            </Button>
+          }
+          <input
+            id="input"
+            type="file"
+            className={styles.inputFileHidden}
+            onChange={handleChange}
+            ref={hiddenCSVInput}
+          ></input>
+        </div>
         <Popover initialFocusRef={infoCSVRef} placement="right" closeOnBlur={true}>
           <PopoverTrigger>
             <Button bg={"gray.100"}><InformationCircle /></Button>
@@ -139,7 +154,25 @@ function FullTextArea({label, name, placeholder = ""}){
 }
 
 const UploadCertificate = () => {
+  const [file, setFile] = useState();
+  const [featCSV, setFeatCSV] = useState("");
 
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+    console.log(file)
+  };
+
+  const hiddenCSVInput = useRef(null);
+  const handleClick = (event) => {
+    event.preventDefault();
+    hiddenCSVInput.current.click();
+  };
+  const handleChange = (event) => {
+    setFeatCSV(event.target.files[0]);
+  };
+
+  console.log(featCSV)
+  
   return(
     <InstitutionLayout>
       <div className={styles.container}>
@@ -167,12 +200,19 @@ const UploadCertificate = () => {
                     <div className={styles.form}>
                       <FullFieldText label="Nombre de la lista:" name="list_name" placeholder="Ejm: Codeable Cohort 2"/>
                       <FullFieldText label="Tipo de certificado:" name="certificate_type"  placeholder="Ejm: Constancia y Certificado"/>
-                      <UploadField label="Para:" />
+                      <UploadField label="Para:"  handleClick={handleClick} handleChange={handleChange} hiddenCSVInput={hiddenCSVInput} csvName={featCSV.name}/>
                       <FieldDate label="Inicio:" name="issue_at"/>
                       <FullFieldText label="Institución:" name="name_institution" placeholder="Ejm: Codeable"/>
                       <FieldDate label="Fin:" name="expiration_at"/>
                       <FullTextArea label="Nombre del curso:" name="name_course" placeholder="Ejm: Curso FullStack"/>
                       <FullTextArea label="Descripción:" name="description"/>
+                      <input
+                        id="input"
+                        type="file"
+                        onChange={onFileChange}
+                        className={styles.inputUpload}
+                        multiple
+                      ></input>
                     </div>
                   </div>
                   <div className={styles.buttonsC}>
