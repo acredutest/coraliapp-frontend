@@ -108,6 +108,7 @@ function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName,
             className={styles.inputFileHidden}
             onChange={handleChange}
             ref={hiddenCSVInput}
+            accept=".csv"
           ></input>
         </div>
         <Popover initialFocusRef={infoCSVRef} placement="right" closeOnBlur={true}>
@@ -249,6 +250,7 @@ const UploadCertificate = () => {
                               onChange={handleImagesChange}
                               className={styles.inputFileHidden}
                               ref={hiddenImagesInput}
+                              accept="image/*"
                               multiple
                             ></input>
                           </div>
