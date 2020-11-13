@@ -156,21 +156,34 @@ function FullTextArea({label, name, placeholder = "", classN, value, handleInput
 const UploadCertificate = () => {
   const [file, setFile] = useState();
   const [featCSV, setFeatCSV] = useState("");
+  const [featImages, setFeatImages] = useState();
+  const [images, setImages] = useState();
   const [courseNameChangeValue, setCourseNameChangeValue] = useState("");
   const [descriptionChangeValue, setDescriptionChangeValue] = useState("");
 
-  const onFileChange = (e) => {
-    setFile(e.target.files[0]);
-    console.log(file)
-  };
+  // const onFileChange = (e) => {
+  //   setFile(e.target.files[0]);
+  //   console.log(file)
+  // };
 
   const hiddenCSVInput = useRef(null);
-  const handleClick = (event) => {
+  const hiddenImagesInput = useRef(null);
+
+  const handleCSVClick = (event) => {
     event.preventDefault();
     hiddenCSVInput.current.click();
   };
-  const handleChange = (event) => {
+  const handleCSVChange = (event) => {
     setFeatCSV(event.target.files[0]);
+  };
+
+  const handleImagesClick = (event) => {
+    event.preventDefault();
+    hiddenImagesInput.current.click();
+  };
+  const handleImagesChange = (event) => {
+    setFeatImages(event.target.files);
+    setImages(Array.from(event.target.files));
   };
 
   const handleCourseNameChange = (event) => {
@@ -180,7 +193,9 @@ const UploadCertificate = () => {
     setDescriptionChangeValue(event.target.value);
   }
 
-  console.log(featCSV)
+  console.log(featCSV);
+  console.log(featImages);
+  
   
   return(
     <InstitutionLayout>
@@ -217,7 +232,7 @@ const UploadCertificate = () => {
                     <div className={styles.form}>
                       <FullFieldText label="Nombre de la lista:" name="list_name" placeholder="Ejm: Codeable Cohort 2" classN = {styles.nameList}/>
                       <FullFieldText label="Tipo de certificado:" name="certificate_type"  placeholder="Ejm: Constancia y Certificado" classN = {styles.typeCertificate}/>
-                      <UploadField label="Para:"  handleClick={handleClick} handleChange={handleChange} hiddenCSVInput={hiddenCSVInput} csvName={featCSV.name} classN={styles.forButton}/>
+                      <UploadField label="Para:"  handleClick={handleCSVClick} handleChange={handleCSVChange} hiddenCSVInput={hiddenCSVInput} csvName={featCSV.name} classN={styles.forButton}/>
                       <FieldDate label="Inicio:" name="issue_at" classN={styles.start}/>
                       <FullFieldText label="Institución:" name="name_institution" placeholder="Ejm: Codeable" classN = {styles.institutionName}/>
                       <FieldDate label="Fin:" name="expiration_at" classN={styles.final}/>
@@ -227,19 +242,24 @@ const UploadCertificate = () => {
                         <div className={styles.fullfield}>
                           <label className={styles.label}>Lista de imagenes:</label>
                           <div>
-                          <Button variantColor={"teal"} onClick={handleClick}>Cargar lista de imagenes</Button>
-                          <input
-                            id="inputUploadImage"
-                            type="file"
-                            // onChange={onFileChange}
-                            className={styles.inputFileHidden}
-                            ref={hiddenCSVInput}
-                            multiple
-                          ></input>
+                            <Button variantColor={"teal"} onClick={handleImagesClick}> <Upload />Cargar lista de imagenes</Button>
+                            <input
+                              id="inputUploadImage"
+                              type="file"
+                              onChange={handleImagesChange}
+                              className={styles.inputFileHidden}
+                              ref={hiddenImagesInput}
+                              multiple
+                            ></input>
                           </div>
                         </div>
-                        
-                        <div className={styles.lisOfFiles}></div>
+                        <div className={styles.lisOfFiles}>
+                          {images != undefined ? (
+                            images.map((image, index) => (<p key={index} className={styles.nameOfImage}>{image.name}</p>))) 
+                          : 
+                          <p className={styles.nameOfImage}>No Images</p>
+                           }
+                        </div>
                       </div>
                       
                     </div>

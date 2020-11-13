@@ -142,4 +142,16 @@
   border-radius: 8px;
   margin-top: 9px;
   height: 65%;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  overflow: auto;
+}
+
+.nameOfImage {
+  color: #2d3748;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 150%;
 }
