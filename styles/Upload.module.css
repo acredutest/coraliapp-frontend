@@ -36,9 +36,53 @@
 .form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 68px) repeat(2, 112px);
   grid-column-gap: 30px;
   margin-bottom: 30px;
+  grid-template-areas:
+    "nameList typeCertificate"
+    "forButton begin"
+    "institutionName final"
+    "courseName uploadFiles"
+    "description uploadFiles";
 }
+
+.nameList {
+  grid-area: nameList;
+}
+
+.typeCertificate {
+  grid-area: typeCertificate;
+}
+
+.forButton {
+  grid-area: forButton;
+}
+
+.start {
+  grid-area: begin;
+}
+
+.final {
+  grid-area: final;
+}
+
+.institutionName {
+  grid-area: institutionName;
+}
+
+.courseName {
+  grid-area: courseName;
+}
+
+.description {
+  grid-area: description;
+}
+
+.uploadFiles {
+  grid-area: uploadFiles;
+}
+
 .fullfield {
   width: 100%;
   display: flex;
@@ -91,4 +135,11 @@
 
 .inputFileHidden {
   display: none;
+}
+
+.lisOfFiles {
+  border: 1px solid #b3b3b4;
+  border-radius: 8px;
+  margin-top: 9px;
+  height: 65%;
 }

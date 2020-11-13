@@ -47,9 +47,9 @@ const validation = yup.object().shape({
   description: yup.string().min(5, "La descripción debe tener más de 4 caracteres"),
 });
 
-function FullFieldText({ label, name, placeholder}) {
+function FullFieldText({ label, name, placeholder, classN}) {
   return(
-    <div className={styles.fullfield}>
+    <div className={`${styles.fullfield} ${classN}`}>
       <label className={styles.label}>{label}</label>
       <div className={styles.fieldContainer}>
         <Field
@@ -70,9 +70,9 @@ function FullFieldText({ label, name, placeholder}) {
   )
 }
 
-function FieldDate({label, name}) {
+function FieldDate({label, name, classN}) {
   return(
-  <div className={styles.fullfield}>
+  <div className={`${styles.fullfield} ${classN}`}>
     <label className={styles.label}>{label}</label>
     <div className={styles.fieldContainer}>
       <Field name={name} type="date" className={styles.field} />
@@ -86,10 +86,10 @@ function FieldDate({label, name}) {
   )
 }
 
-function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName}) {
+function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName, classN}) {
   const infoCSVRef = useRef();
   return(
-    <div className={styles.fullfield}>
+    <div className={`${styles.fullfield} ${classN}`}>
       <label className={styles.label}>{label}</label>
       <Flex justifyContent="space-between" className={styles.fieldContainer}>
         <div className={styles.addresseeButton}>
@@ -137,12 +137,12 @@ function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName}
   )
 }
 
-function FullTextArea({label, name, placeholder = ""}){
+function FullTextArea({label, name, placeholder = "", classN, value, handleInput}){
   return (
-    <div className={styles.fullfield}>
+    <div className={`${styles.fullfield} ${classN}`}>
       <label className={styles.label}>{label}</label>
       <div className={styles.fieldContainer}>
-        <Textarea name={name} placeholder={placeholder} className={styles.field} />
+        <Textarea name={name} placeholder={placeholder} className={styles.field} value={value} onChange={handleInput}/>
         <div>
           <ErrorMessage name={name}>
             {(msg) => <p className={styles.error}>{msg}</p>}
@@ -156,6 +156,8 @@ function FullTextArea({label, name, placeholder = ""}){
 const UploadCertificate = () => {
   const [file, setFile] = useState();
   const [featCSV, setFeatCSV] = useState("");
+  const [courseNameChangeValue, setCourseNameChangeValue] = useState("");
+  const [descriptionChangeValue, setDescriptionChangeValue] = useState("");
 
   const onFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -170,6 +172,13 @@ const UploadCertificate = () => {
   const handleChange = (event) => {
     setFeatCSV(event.target.files[0]);
   };
+
+  const handleCourseNameChange = (event) => {
+    setCourseNameChangeValue(event.target.value);
+  }
+  const handleDescriptionChange = (event) => {
+    setDescriptionChangeValue(event.target.value);
+  }
 
   console.log(featCSV)
   
@@ -190,29 +199,49 @@ const UploadCertificate = () => {
                 description: "",
               }}
               validationSchema={validation}
-              onSubmit={async (values) => {
-                console.log(values);
+              onSubmit={async ({list_name, certificate_type, issue_at, name_institution, expiration_at, name_course, description }) => {
+                name_course = courseNameChangeValue;
+                description = descriptionChangeValue
+                console.log(list_name);
+                console.log(certificate_type);
+                console.log(issue_at);
+                console.log(name_institution);
+                console.log(expiration_at);
+                console.log(name_course);
+                console.log(description);
               }}
             >
             {({ values }) => (
                 <Form >
                   <div className={styles.formC}>
                     <div className={styles.form}>
-                      <FullFieldText label="Nombre de la lista:" name="list_name" placeholder="Ejm: Codeable Cohort 2"/>
-                      <FullFieldText label="Tipo de certificado:" name="certificate_type"  placeholder="Ejm: Constancia y Certificado"/>
-                      <UploadField label="Para:"  handleClick={handleClick} handleChange={handleChange} hiddenCSVInput={hiddenCSVInput} csvName={featCSV.name}/>
-                      <FieldDate label="Inicio:" name="issue_at"/>
-                      <FullFieldText label="Institución:" name="name_institution" placeholder="Ejm: Codeable"/>
-                      <FieldDate label="Fin:" name="expiration_at"/>
-                      <FullTextArea label="Nombre del curso:" name="name_course" placeholder="Ejm: Curso FullStack"/>
-                      <FullTextArea label="Descripción:" name="description"/>
-                      <input
-                        id="input"
-                        type="file"
-                        onChange={onFileChange}
-                        className={styles.inputUpload}
-                        multiple
-                      ></input>
+                      <FullFieldText label="Nombre de la lista:" name="list_name" placeholder="Ejm: Codeable Cohort 2" classN = {styles.nameList}/>
+                      <FullFieldText label="Tipo de certificado:" name="certificate_type"  placeholder="Ejm: Constancia y Certificado" classN = {styles.typeCertificate}/>
+                      <UploadField label="Para:"  handleClick={handleClick} handleChange={handleChange} hiddenCSVInput={hiddenCSVInput} csvName={featCSV.name} classN={styles.forButton}/>
+                      <FieldDate label="Inicio:" name="issue_at" classN={styles.start}/>
+                      <FullFieldText label="Institución:" name="name_institution" placeholder="Ejm: Codeable" classN = {styles.institutionName}/>
+                      <FieldDate label="Fin:" name="expiration_at" classN={styles.final}/>
+                      <FullTextArea label="Nombre del curso:" name="name_course" placeholder="Ejm: Curso FullStack" classN={styles.courseName} value={courseNameChangeValue}  handleInput={handleCourseNameChange}/>
+                      <FullTextArea label="Descripción:" name="description" classN={styles.description}  value={descriptionChangeValue}  handleInput={handleDescriptionChange}/>
+                      <div className={styles.uploadFiles}>
+                        <div className={styles.fullfield}>
+                          <label className={styles.label}>Lista de imagenes:</label>
+                          <div>
+                          <Button variantColor={"teal"} onClick={handleClick}>Cargar lista de imagenes</Button>
+                          <input
+                            id="inputUploadImage"
+                            type="file"
+                            // onChange={onFileChange}
+                            className={styles.inputFileHidden}
+                            ref={hiddenCSVInput}
+                            multiple
+                          ></input>
+                          </div>
+                        </div>
+                        
+                        <div className={styles.lisOfFiles}></div>
+                      </div>
+                      
                     </div>
                   </div>
                   <div className={styles.buttonsC}>
