@@ -91,7 +91,7 @@ function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName,
   return(
     <div className={`${styles.fullfield} ${classN}`}>
       <label className={styles.label}>{label}</label>
-      <div justifyContent="space-between" className={styles.fieldContainer}>
+      <div className={styles.fieldContainer}>
         <div className={styles.addresseeButton}>
           {csvName != undefined ? 
             <Button variantColor={"teal"} onClick={handleClick}>
@@ -193,10 +193,6 @@ const UploadCertificate = () => {
   const handleDescriptionChange = (event) => {
     setDescriptionChangeValue(event.target.value);
   }
-
-  console.log(featCSV);
-  console.log(featImages);
-  
   
   return(
     <InstitutionLayout>
@@ -217,14 +213,23 @@ const UploadCertificate = () => {
               validationSchema={validation}
               onSubmit={async ({list_name, certificate_type, issue_at, name_institution, expiration_at, name_course, description }) => {
                 name_course = courseNameChangeValue;
-                description = descriptionChangeValue
-                console.log(list_name);
-                console.log(certificate_type);
-                console.log(issue_at);
-                console.log(name_institution);
-                console.log(expiration_at);
-                console.log(name_course);
-                console.log(description);
+                description = descriptionChangeValue;
+
+                try{
+                  const formData = new FormData();
+                  formData.append("list_name", list_name);
+                  formData.append("certificate_type", certificate_type);
+                  formData.append("issue_at", issue_at);
+                  formData.append("name_institution", name_institution);
+                  formData.append("expiration_at", expiration_at);
+                  formData.append("name_course", name_course);
+                  formData.append("description", description);
+                  formData.append("csv", featCSV);
+                  formData.append("images", featImages);
+                  
+                } catch (error) {
+                  console.error("Failed to upload", error);
+                }
               }}
             >
             {({ values }) => (
