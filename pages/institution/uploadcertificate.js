@@ -23,6 +23,9 @@ import {
   Textarea
 } from '@chakra-ui/core';
 
+import Link from "next/link";
+import Head from "next/head";
+
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
     ? originalValue
@@ -196,6 +199,10 @@ const UploadCertificate = () => {
   
   return(
     <InstitutionLayout>
+      <Head>
+        <title>Coraliapp | Upload</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className={styles.container}>
         <div className={styles.main}>
           <h1 className={styles.title}>Upload certificate</h1>
@@ -273,7 +280,9 @@ const UploadCertificate = () => {
                   </div>
                   <div className={styles.buttonsC}>
                     <div className={styles.buttonsContainer}>
-                      <Button variantColor={"teal"} variant="outline">Regresar al panel</Button>
+                      <Link href="/institution">
+                        <Button variantColor={"teal"} variant="outline">Regresar al panel</Button>
+                      </Link>
                       <Button type="submit"  variantColor={"teal"} >Guardar y crear</Button>
                     </div>
                   </div>
