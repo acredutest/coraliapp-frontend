@@ -30,7 +30,7 @@
 }
 
 .formC {
-  border-bottom: 1px solid #2e384d;
+  border-bottom: 1px solid #b3b3b4;
 }
 
 .form {
@@ -100,6 +100,8 @@
 }
 .fieldContainer {
   width: 65%;
+  display: flex;
+  justify-content: space-between;
 }
 .field {
   border: 1px solid #e2e8f0;
@@ -154,4 +156,45 @@
   font-style: normal;
   font-weight: normal;
   line-height: 150%;
+}
+
+@media screen and (max-width: 1000px) {
+  .form {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 68px) repeat(2, 112px) repeat(3, 68px) repeat(
+        2,
+        112px
+      );
+    grid-template-areas:
+      "nameList"
+      "forButton"
+      "institutionName"
+      "courseName"
+      "description"
+      "typeCertificate"
+      "begin"
+      "final"
+      "uploadFiles"
+      "uploadFiles";
+  }
+  .buttonsContainer {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 1150px) and (min-width: 1001px) {
+  .buttonsContainer {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .buttonsContainer {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .buttonsContainer {
+    width: 85%;
+  }
 }

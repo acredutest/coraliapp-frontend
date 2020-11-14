@@ -91,7 +91,7 @@ function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName,
   return(
     <div className={`${styles.fullfield} ${classN}`}>
       <label className={styles.label}>{label}</label>
-      <Flex justifyContent="space-between" className={styles.fieldContainer}>
+      <div justifyContent="space-between" className={styles.fieldContainer}>
         <div className={styles.addresseeButton}>
           {csvName != undefined ? 
             <Button variantColor={"teal"} onClick={handleClick}>
@@ -133,7 +133,7 @@ function UploadField({label, handleClick, handleChange, hiddenCSVInput, csvName,
             </PopoverFooter>
           </PopoverContent>
         </Popover>
-      </Flex> 
+      </div> 
     </div>
   )
 }
