@@ -24,7 +24,7 @@ import {
   Image
 } from '@chakra-ui/core';
 import InstitutionLayout from '../../../layouts/InstitutionLayout/InstitutionLayout';
-import { BreadcrumbInstitution } from '../../../components/common/BreadcrumInstitution';
+// import { BreadcrumbInstitution } from '../../../components/common/BreadcrumInstitution';
 
 const SuccessCreate = () => {
 
