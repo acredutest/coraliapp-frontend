@@ -15,8 +15,6 @@ function VerifyCertificate() {
   const [numPages, setNumPages] = useState(0);
   const [isError, setIsError] = useState(false);
   const [file, setFile] = useState();
-  const [numPages, setNumPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
 
   const path = {
     shieldLightBlue: "/images/shieldLightBlue.svg",
