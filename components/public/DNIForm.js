@@ -5,7 +5,7 @@ import styles from "./../../styles/Certificates.module.scss";
 
 import { getCredentials } from "./../../redux/slices/credentialsSlice";
 import { useRouter } from "next/router";
-import { getFetch } from "../../api/client";
+import { getFetch } from "../../client/client";
 
 const buttonMessages = {
   onSearch: {

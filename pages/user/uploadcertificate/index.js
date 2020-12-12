@@ -12,7 +12,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { parse, isDate } from "date-fns";
 import { Page, Document, pdfjs } from "react-pdf";
-import { postPDFFetch } from "../../api/client";
+import { postPDFFetch } from "../../../client/client";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 

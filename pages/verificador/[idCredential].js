@@ -5,7 +5,7 @@ import stylesCertificate from "./../../styles/Certificates.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Page, Document, pdfjs } from "react-pdf";
-import { getFetch } from "../api/client";
+import { getFetch } from "../../client/client";
 import { Page, Document, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
