@@ -24,8 +24,8 @@ export const Header = props => {
 
       <Menu>
         <MenuButton as={Button} rightIcon="chevron-down" className={styles.menuButtonHeader}>
-          <Avatar name={user.name} src={""} size="sm" />
-          <Text fontSize="sm">{user.name}</Text>
+          <Avatar name={user? user.name: ""} src={""} size="sm" />
+          <Text fontSize="sm">{user? user.name: ""}</Text>
         </MenuButton>
         <MenuList className={styles.menuListHeader}>
           <MenuItem className={styles.menuItemHeader}>Editar perfil</MenuItem>

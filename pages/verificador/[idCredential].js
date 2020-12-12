@@ -86,7 +86,7 @@ function VerifyCertificate() {
             <h1 className={styles.certificadoTitle}>
               Emisor:{" "}
               <span className={styles.wordBold}>
-                {certificateInfo.name_institution}
+                {certificateInfo ? certificateInfo.name_institution : ""}
               </span>
             </h1>
             {/* </div> */}
