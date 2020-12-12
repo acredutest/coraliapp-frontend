@@ -7,7 +7,7 @@ import ProtectedRoute from "./../../../hocs/ProtectedRoute";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
-import { logout } from "./../../../slices/authSlice";
+import { logout } from "./../../../redux/slices/authSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { parse, isDate } from "date-fns";
