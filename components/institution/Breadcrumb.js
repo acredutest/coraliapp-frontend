@@ -6,7 +6,7 @@ import { ChevronLeft } from "heroicons-react";
 
 import styles from './../../styles/BreadcrumbInstitution.module.css';
 
-const Breadcrumb = ({ title, handleBackButton }) => {
+export const Breadcrumb = ({ title, handleBackButton }) => {
   const handleToggle = () => setShow(!show);
 
   return (
@@ -35,5 +35,3 @@ Breadcrumb.propTypes = {
   title: PropTypes.string.isRequired,
   handleBackButton: PropTypes.func
 };
-
-export default Breadcrumb;
