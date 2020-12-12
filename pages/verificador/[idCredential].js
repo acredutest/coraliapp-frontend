@@ -93,7 +93,7 @@ function VerifyCertificate() {
             <p className={styles.certificadoContent}>
               fecha de emisión:{" "}
               <span className={styles.wordBold}>
-                {certificateInfo.issue_at}
+                {certificateInfo ? certificateInfo.issue_at: ""}
               </span>
             </p>
             <p className={styles.certificadoContent}>
