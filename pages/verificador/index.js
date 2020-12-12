@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-import { loadingStarted, loadingStopped } from "../../slices/statusSlice";
+import { loadingStarted, loadingStopped } from "../../redux/slices/statusSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const validations = yup.object().shape(
