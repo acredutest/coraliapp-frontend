@@ -24,13 +24,13 @@ import {
   Image
 } from '@chakra-ui/core';
 import InstitutionLayout from '../../../layouts/InstitutionLayout/InstitutionLayout';
-import { BreadcrumbInstitution } from '../../../components/institution/Breadcrumb';
+import { Breadcrumb } from '../../../components/institution/Breadcrumb';
 
 const SuccessCreate = () => {
 
   return (
     <InstitutionLayout>
-      <BreadcrumbInstitution title={"Certificados Diseñados"} />
+      <Breadcrumb title={"Certificados Diseñados"} />
       <Box className={styles.container}>
         <Flex justifyContent="center" alignItems="center" flexDirection="column">
           <CheckCircle size={60} color="#4BC0D0" />
