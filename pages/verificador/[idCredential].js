@@ -99,7 +99,7 @@ function VerifyCertificate() {
             <p className={styles.certificadoContent}>
               fecha de expiración:{" "}
               <span className={styles.wordBold}>
-                {certificateInfo.expiration_at
+                {certificateInfo
                   ? certificateInfo.expiration_at
                   : "Nunca expira"}
               </span>
