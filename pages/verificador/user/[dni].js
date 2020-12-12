@@ -8,7 +8,7 @@ import Certificate from "./../../user/_components/certificate";
 
 import { useRouter } from "next/router";
 
-import { getFetch } from "../../api/client";
+import { getFetch } from "../../client/client";
 
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState();
